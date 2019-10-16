@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
-  Vcl.StdCtrls, Vcl.ExtCtrls, Dtm.Main, Controller.ProdutoVis;
+  Vcl.StdCtrls, Vcl.ExtCtrls, Dtm.Main, Controller.ProdutoVis,
+  Controller.Produto;
 
 type
   TProdutoViewVis = class(TForm)
@@ -27,7 +28,7 @@ type
 
 var
   ProdutoViewVis: TProdutoViewVis;
-  ProdutoVisController : TControllerVisProduto;
+  ProdutoController : TProdutoController;
 
 implementation
 
@@ -38,17 +39,17 @@ uses
 
 procedure TProdutoViewVis.btnIncluirClick(Sender: TObject);
 begin
-  ProdutoVisController.ShowView(stInsert,True);
+  ProdutoController.CreateView(stInsert,True);
 end;
 
 procedure TProdutoViewVis.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  FreeAndNil(ProdutoVisController);
+  FreeAndNil(ProdutoController);
 end;
 
 procedure TProdutoViewVis.FormCreate(Sender: TObject);
 begin
-  ProdutoVisController := TControllerVisProduto.Create;
+  ProdutoController := TProdutoController.Create;
 end;
 
 

@@ -35,19 +35,7 @@ end;
 procedure TControllerVisProduto.ShowView(AStatus: TAction; AModal: Boolean);
 begin
 
-  case AStatus of
-    stInsert:
-            begin
-              Application.CreateForm(TProdutoView, ProdutoView);
-              if AModal then
-                ProdutoView.ShowModal
-              else
-                ProdutoView.Show;
-            end;
-    stUpdate: ;
-    stDelete: ;
-    stShow: ;
-  end;
+  
 
 end;
 

@@ -37,9 +37,7 @@ object MenuView: TMenuView
       Align = alLeft
       Caption = 'Produto'
       TabOrder = 1
-      ExplicitLeft = 168
-      ExplicitTop = 40
-      ExplicitHeight = 25
+      OnClick = btnProdutoClick
     end
     object btnCliente: TButton
       Left = 1
@@ -49,8 +47,6 @@ object MenuView: TMenuView
       Align = alLeft
       Caption = 'Cliente'
       TabOrder = 2
-      OnClick = btnClienteClick
-      ExplicitLeft = -5
     end
   end
 end

@@ -11,6 +11,8 @@ object ProdutoView: TProdutoView
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnClose = FormClose
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object EdtDescricao: TLabeledEdit
@@ -31,6 +33,7 @@ object ProdutoView: TProdutoView
     EditLabel.Width = 15
     EditLabel.Height = 13
     EditLabel.Caption = 'ID:'
+    ReadOnly = True
     TabOrder = 1
   end
   object EdtCusto: TLabeledEdit
@@ -60,6 +63,7 @@ object ProdutoView: TProdutoView
     Height = 25
     Caption = 'Gravar'
     TabOrder = 4
+    OnClick = btnGravarClick
   end
   object btnCancelar: TButton
     Left = 209

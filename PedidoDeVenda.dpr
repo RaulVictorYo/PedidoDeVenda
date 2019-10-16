@@ -8,7 +8,11 @@ uses
   View.Produto in 'View\View.Produto.pas' {ProdutoView},
   Controller.ProdutoVis in 'Controller\Controller.ProdutoVis.pas',
   Util.Enum in 'Util\Util.Enum.pas',
-  Controller.Menu in 'Controller\Controller.Menu.pas';
+  Controller.Menu in 'Controller\Controller.Menu.pas',
+  Model.Produto in 'Model\Model.Produto.pas',
+  Controller.Produto in 'Controller\Controller.Produto.pas',
+  DAO.Produto in 'DAO\DAO.Produto.pas',
+  DAO.Base in 'DAO\DAO.Base.pas';
 
 {$R *.res}
 
@@ -17,8 +21,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TMenuView, MenuView);
-  Application.CreateForm(TProdutoViewVis, ProdutoViewVis);
   Application.CreateForm(TDtmMain, DtmMain);
-  Application.CreateForm(TProdutoView, ProdutoView);
   Application.Run;
 end.
