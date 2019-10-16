@@ -67,7 +67,7 @@ end;
 procedure TProdutoController.Gravar;
 begin
   SetModelByView;
-  DAO.Save(Model);
+  DAO.Insert(Model);
 end;
 
 procedure TProdutoController.SetModelByView;

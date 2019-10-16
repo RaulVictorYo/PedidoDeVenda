@@ -12,7 +12,9 @@ uses
   Model.Produto in 'Model\Model.Produto.pas',
   Controller.Produto in 'Controller\Controller.Produto.pas',
   DAO.Produto in 'DAO\DAO.Produto.pas',
-  DAO.Base in 'DAO\DAO.Base.pas';
+  DAO.Base in 'DAO\DAO.Base.pas',
+  Singleton.Connection in 'Singleton\Singleton.Connection.pas',
+  Model.Base in 'Model\Model.Base.pas';
 
 {$R *.res}
 
@@ -21,6 +23,5 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TMenuView, MenuView);
-  Application.CreateForm(TDtmMain, DtmMain);
   Application.Run;
 end.

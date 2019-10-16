@@ -3,14 +3,14 @@ unit DAO.Produto;
 interface
 
 uses
-  DAO.Base, Model.Produto, FireDAC.Comp.Client;
+  DAO.Base, Model.Produto, FireDAC.Comp.Client, Model.Base;
 
 type
 
   TProdutoDAO = class(TBaseDAO)
 
-  procedure SetParameters(var FDQuery: TFDQuery; const AModel: TProdutoModel);
-  function Save(AModel: TProdutoModel): Integer;
+  procedure SetParameters(var FDQuery: TFDQuery; const AModel: TBaseModel); override;
+  function InsertText : string; override;
 
   end;
 
@@ -21,31 +21,27 @@ uses
 
 { TProdutoDAO }
 
-function TProdutoDAO.Save(AModel: TProdutoModel): Integer;
+
+function TProdutoDAO.InsertText: string;
 var
-  FDQuery: TFDQuery;
-  SB: TStringBuilder;
+   SB: TStringBuilder;
 begin
-  FDQuery := TFDQuery.Create(nil);
-  SB := TStringBuilder.Create;
   try
-    FDQuery.Connection := DtmMain.FDConnectionMain;
+    SB := TStringBuilder.Create;
     SB.Append('UPDATE OR INSERT INTO PRODUTO (');
     SB.Append('ID, DESCRICAO, CUSTO, VALORVENDA)');
     SB.Append('VALUES (');
     SB.Append(':ID, :DESCRICAO, :CUSTO, :VALORVENDA)');
-    FDQuery.Close;
-    FDQuery.SQL.Text := SB.ToString;
-    SetParameters(FDQuery, AModel);
-    FDQuery.ExecSQL;
-    Result := FDQuery.Fields[0].AsInteger;
+    SB.Append('MATCHING (ID) RETURNING ID');
+    Result := SB.ToString;
   finally
-    FreeAndNil(FDQuery);
+    FreeAndNil(SB);
   end;
+
 end;
 
 procedure TProdutoDAO.SetParameters(var FDQuery: TFDQuery;
-  const AModel: TProdutoModel);
+  const AModel: TBaseModel);
 begin
 
 with FDQuery, TProdutoModel(AModel) do
