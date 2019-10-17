@@ -89,7 +89,7 @@ end;
 procedure TConnectionSingleton.Free;
 begin
    if FInstance <> nil then
-     Free;
+     FreeAndNil(FInstance);
 end;
 
 class function TConnectionSingleton.GetInstance: TConnectionSingleton;

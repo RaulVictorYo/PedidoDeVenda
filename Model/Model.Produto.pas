@@ -17,6 +17,8 @@ TProdutoModel = Class(TBaseModel)
     procedure SetValorVenda(const Value: Double);
 
   public
+    constructor Create;
+    destructor Destroy;
     property Descricao: string read FDescricao write SetDescricao;
     property Custo: Double read FCusto write SetCusto;
     property ValorVenda: Double read FValorVenda write SetValorVenda;
@@ -26,6 +28,17 @@ TProdutoModel = Class(TBaseModel)
 implementation
 
 { TProdutoModel }
+
+constructor TProdutoModel.Create;
+begin
+  Table := 'Produto';
+  Generator := 'GEN_PRODUTO_ID';
+end;
+
+destructor TProdutoModel.Destroy;
+begin
+
+end;
 
 procedure TProdutoModel.SetCusto(const Value: Double);
 begin

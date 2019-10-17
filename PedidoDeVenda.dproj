@@ -108,11 +108,6 @@
             <Form>ProdutoViewVis</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="DataModule\Dtm.Main.pas">
-            <Form>DtmMain</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TDataModule</DesignClass>
-        </DCCReference>
         <DCCReference Include="View\View.Produto.pas">
             <Form>ProdutoView</Form>
             <FormType>dfm</FormType>
@@ -126,6 +121,7 @@
         <DCCReference Include="DAO\DAO.Base.pas"/>
         <DCCReference Include="Singleton\Singleton.Connection.pas"/>
         <DCCReference Include="Model\Model.Base.pas"/>
+        <DCCReference Include="Controller\Controller.Base.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

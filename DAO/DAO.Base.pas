@@ -3,26 +3,73 @@ unit DAO.Base;
 interface
 
 uses
-  FireDAC.Comp.Client, System.SysUtils, Dtm.Main, Singleton.Connection,
-  Model.Base;
+  FireDAC.Comp.Client, System.SysUtils, Singleton.Connection,
+  Model.Base, Data.DB;
 
 type
 
 TBaseDAO = class
+  private
+    FModel: TBaseModel;
+    procedure SetModel(const Value: TBaseModel);
   public
-  function GetNewID: Integer;
+  constructor Create; virtual;
+  destructor Destroy; virtual;
+  function GetNewID(AModel: TBaseModel): Integer;
   procedure SetParameters(var FDQuery: TFDQuery; const AModel: TBaseModel); virtual; abstract;
+  function SetModelByDataSet(DataSet: TDataSet) : TBaseModel; virtual; abstract;
   function Insert(AModel: TBaseModel): Integer; virtual;
+  function Update(AModel: TBaseModel): Integer; virtual;
   function InsertText : string; virtual; abstract;
+  function UpdateText : string; virtual; abstract;
+  function AtualizaGrid(AID:integer) : string; virtual; abstract;
+  function FindText(AID: Integer) : string; virtual; abstract;
+  function FindByID(AID: Integer) : TBaseModel; virtual;
+  property Model: TBaseModel read FModel write SetModel;
 end;
 
 implementation
+
+uses
+  Winapi.Windows, Vcl.Forms;
 
 
 
 { TBaseDAO }
 
-function TBaseDAO.GetNewID: Integer;
+constructor TBaseDAO.Create;
+begin
+
+end;
+
+destructor TBaseDAO.Destroy;
+begin
+
+end;
+
+function TBaseDAO.FindByID(AID: Integer): TBaseModel;
+var
+  DataSet: TDataSet;
+  FDQuery: TFDQuery;
+begin
+  try
+    FDQuery := TFDQuery.Create(nil);
+    FDQuery.Connection := TConnectionSingleton.GetInstance.Connection;
+    FDQuery.Close;
+    FDQuery.SQL.Text := FindText(AID);
+    FDQuery.Open();
+    DataSet := FDQuery;
+
+    if DataSet.RecordCount = 1 then
+      Result := SetModelByDataSet(DataSet)
+    else
+      Result := nil;
+  finally
+    //FreeAndNil(DataSet);
+  end;
+end;
+
+function TBaseDAO.GetNewID(AModel: TBaseModel): Integer;
 var
   FDQuery: TFDQuery;
   SB: TStringBuilder;
@@ -31,7 +78,7 @@ begin
     SB := TStringBuilder.Create;
     FDQuery := TFDQuery.Create(nil);
     FDQuery.Connection := TConnectionSingleton.GetInstance.Connection;
-    SB.Append('SELECT GEN_ID(GEN_PRODUTO_ID, 1) FROM RDB$DATABASE; ');
+    SB.Append('SELECT GEN_ID('+ AModel.Generator +', 1) FROM RDB$DATABASE; ');
     FDQuery.Close;
     FDQuery.SQL.Text := SB.ToString;
     FDQuery.Open();
@@ -48,17 +95,49 @@ var
 begin
   FDQuery := TFDQuery.Create(nil);
   try
-    FDQuery.Connection := TConnectionSingleton.GetInstance.Connection;
-    FDQuery.Close;
-    FDQuery.SQL.Text := InsertText;
-    SetParameters(FDQuery, AModel);
-    FDQuery.Open;
-    Result := FDQuery.Fields[0].AsInteger;
+    try
+      FDQuery.Connection := TConnectionSingleton.GetInstance.Connection;
+      FDQuery.Close;
+      FDQuery.SQL.Text := InsertText;
+      SetParameters(FDQuery, AModel);
+      FDQuery.Open;
+      Result := FDQuery.Fields[0].AsInteger;
+    except on E: Exception do
+      Application.MessageBox('Erro','Ocoreu um Erro durante o Processo de Gravação!');
+    end;
   finally
     FreeAndNil(FDQuery);
   end;
 
+
+
 end;
 
+
+procedure TBaseDAO.SetModel(const Value: TBaseModel);
+begin
+  FModel := Value;
+end;
+
+function TBaseDAO.Update(AModel: TBaseModel): Integer;
+var
+  FDQuery: TFDQuery;
+begin
+  FDQuery := TFDQuery.Create(nil);
+  try
+    try
+      FDQuery.Connection := TConnectionSingleton.GetInstance.Connection;
+      FDQuery.Close;
+      FDQuery.SQL.Text := UpdateText;
+      SetParameters(FDQuery, AModel);
+      FDQuery.Open;
+      Result := FDQuery.Fields[0].AsInteger;
+    except on E: Exception do
+      Application.MessageBox('Erro','Ocoreu um Erro durante o Processo de Gravação!');
+    end;
+  finally
+    FreeAndNil(FDQuery);
+  end;
+end;
 
 end.

@@ -4,7 +4,6 @@ uses
   Vcl.Forms,
   View.Menu in 'View\View.Menu.pas' {Form1},
   View.ProdutoVis in 'View\View.ProdutoVis.pas' {ProdutoViewVis},
-  Dtm.Main in 'DataModule\Dtm.Main.pas' {DtmMain: TDataModule},
   View.Produto in 'View\View.Produto.pas' {ProdutoView},
   Controller.ProdutoVis in 'Controller\Controller.ProdutoVis.pas',
   Util.Enum in 'Util\Util.Enum.pas',
@@ -14,7 +13,8 @@ uses
   DAO.Produto in 'DAO\DAO.Produto.pas',
   DAO.Base in 'DAO\DAO.Base.pas',
   Singleton.Connection in 'Singleton\Singleton.Connection.pas',
-  Model.Base in 'Model\Model.Base.pas';
+  Model.Base in 'Model\Model.Base.pas',
+  Controller.Base in 'Controller\Controller.Base.pas';
 
 {$R *.res}
 

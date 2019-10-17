@@ -39,6 +39,7 @@ object ProdutoViewVis: TProdutoViewVis
       Align = alLeft
       Caption = 'Alterar'
       TabOrder = 1
+      OnClick = btnAlterarClick
     end
     object btnIncluir: TButton
       Left = 1
@@ -100,8 +101,14 @@ object ProdutoViewVis: TProdutoViewVis
       end>
   end
   object DataSource1: TDataSource
-    DataSet = DtmMain.FDQueryProduto
+    DataSet = FDQueryGrid
     Left = 512
+    Top = 304
+  end
+  object FDQueryGrid: TFDQuery
+    SQL.Strings = (
+      'select * from produto')
+    Left = 424
     Top = 304
   end
 end

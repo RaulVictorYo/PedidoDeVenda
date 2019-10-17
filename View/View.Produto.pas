@@ -43,6 +43,7 @@ var
 procedure TProdutoView.btnGravarClick(Sender: TObject);
 begin
   ProdutoController.Gravar;
+  Close;
 end;
 
 procedure TProdutoView.FormClose(Sender: TObject; var Action: TCloseAction);
