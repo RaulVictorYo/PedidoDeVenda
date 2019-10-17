@@ -55,7 +55,7 @@ begin
     stUpdate:
      begin
       Application.CreateForm(TProdutoView, ProdutoView);
-      TProdutoModel(Model) := TProdutoModel(DAO.FindByID(ProdutoViewVis.FDQueryGrid.FieldByName('ID').AsInteger));
+      Model := DAO.FindByID(ProdutoViewVis.FDQueryGrid.FieldByName('ID').AsInteger);
       SetViewByModel;
       if AModal then
         ProdutoView.ShowModal

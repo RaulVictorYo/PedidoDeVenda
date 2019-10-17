@@ -85,14 +85,18 @@ begin
 end;
 
 function TProdutoDAO.SetModelByDataSet(DataSet: TDataSet) : TBaseModel;
+var
+  ModelUpdate: TProdutoModel;
 begin
-  with TProdutoModel(Model) , DataSet do
+  ModelUpdate := TProdutoModel.Create;
+  with ModelUpdate , DataSet do
   begin
     Id := FieldByName('ID').AsInteger;
     Descricao := FieldByName('Descricao').AsString;
     Custo := FieldByName('Custo').AsFloat;
     ValorVenda := FieldByName('ValorVenda').AsFloat;
   end;
+  Result := ModelUpdate;
 end;
 
 procedure TProdutoDAO.SetParameters(var FDQuery: TFDQuery;
