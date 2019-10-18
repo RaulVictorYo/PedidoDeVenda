@@ -16,6 +16,9 @@ TProdutoController = class(TBaseController)
   procedure SetModelByView; override;
   procedure Gravar; override;
   procedure SetViewByModel; override;
+  procedure Search(AText : string);
+  procedure Delete; override;
+
 
 
   var
@@ -62,10 +65,17 @@ begin
       else
         ProdutoView.Show;
     end;
-    stDelete: ;
     stShow: ;
   end;
 
+end;
+
+procedure TProdutoController.Delete;
+begin
+  Model := DAO.FindByID(ProdutoViewVis.FDQueryGrid.FieldByName('ID').AsInteger);
+  DAO.Delete(Model);
+  ProdutoViewVis.FDQueryGrid.SQL.Text:= DAO.AtualizaGrid(Model.ID);
+  ProdutoViewVis.FDQueryGrid.Active := true;
 end;
 
 destructor TProdutoController.Destroy;
@@ -81,6 +91,12 @@ begin
   ProdutoViewVis.FDQueryGrid.SQL.Text:= DAO.AtualizaGrid(DAO.Insert(Model));
   ProdutoViewVis.FDQueryGrid.Active := true;
 
+end;
+
+procedure TProdutoController.Search(AText: string);
+begin
+  ProdutoViewVis.FDQueryGrid.SQL.Text:= DAO.Search(AText);
+  ProdutoViewVis.FDQueryGrid.Active := true;
 end;
 
 procedure TProdutoController.SetModelByView;

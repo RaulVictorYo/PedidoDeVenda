@@ -16,6 +16,7 @@ type
     procedure SetModelByView; virtual; abstract;
     procedure SetViewByModel; virtual; abstract;
     procedure Gravar; virtual; abstract;
+    procedure Delete; virtual; abstract;
     property Model: TBaseModel read FModel write SetModel;
 
   end;

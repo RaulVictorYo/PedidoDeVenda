@@ -47,6 +47,7 @@ object MenuView: TMenuView
       Align = alLeft
       Caption = 'Cliente'
       TabOrder = 2
+      OnClick = btnClienteClick
     end
   end
 end

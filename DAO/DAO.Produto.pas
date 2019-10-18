@@ -14,9 +14,10 @@ type
     procedure SetParameters(var FDQuery: TFDQuery; const AModel: TBaseModel); override;
     function InsertText : string; override;
     function AtualizaGrid(AID: Integer): string; override;
-    function UpdateText: string; override;
     function FindText(AID: Integer) : string; override;
     function SetModelByDataSet(DataSet: TDataSet) : TBaseModel; override;
+    function Search(AText: string): string; override;
+
 
 
   end;
@@ -84,6 +85,28 @@ begin
 
 end;
 
+function TProdutoDAO.Search(AText: string): string;
+var
+   SB: TStringBuilder;
+   Value: integer;
+begin
+  try
+    SB := TStringBuilder.Create;
+    SB.Append('SELECT * FROM PRODUTO WHERE 1=1');
+    if TryStrToInt(AText,Value) then
+      SB.Append('AND ID =' + AText)
+    else
+    begin
+      SB.Append('AND DESCRICAO LIKE ''%');
+      SB.Append(AText +'%''');
+    end;
+
+    Result := SB.ToString;
+  finally
+    FreeAndNil(SB);
+  end;
+end;
+
 function TProdutoDAO.SetModelByDataSet(DataSet: TDataSet) : TBaseModel;
 var
   ModelUpdate: TProdutoModel;
@@ -111,23 +134,6 @@ begin
     ParamByName('ValorVenda').AsFloat := ValorVenda;
   end;
 
-end;
-
-function TProdutoDAO.UpdateText: string;
-var
-   SB: TStringBuilder;
-begin
-  try
-    SB := TStringBuilder.Create;
-    SB.Append('UPDATE OR INSERT INTO PRODUTO (');
-    SB.Append('DESCRICAO, CUSTO, VALORVENDA)');
-    SB.Append('VALUES (');
-    SB.Append(':DESCRICAO, :CUSTO, :VALORVENDA)');
-    SB.Append('MATCHING (ID) RETURNING ID');
-    Result := SB.ToString;
-  finally
-    FreeAndNil(SB);
-  end;
 end;
 
 end.

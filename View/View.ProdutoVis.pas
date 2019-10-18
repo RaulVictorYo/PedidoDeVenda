@@ -21,10 +21,14 @@ type
     DBGrid1: TDBGrid;
     DataSource1: TDataSource;
     FDQueryGrid: TFDQuery;
+    edtID: TLabeledEdit;
+    edtDescricao: TLabeledEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnAlterarClick(Sender: TObject);
+    procedure btnPesquisarClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -47,9 +51,26 @@ begin
   ProdutoController.CreateView(stUpdate,True);
 end;
 
+procedure TProdutoViewVis.btnExcluirClick(Sender: TObject);
+begin
+  if Application.MessageBox('Você tem certeza que quer excluir esse Produto?','Exclusão',mb_yesno + mb_iconquestion) = id_yes then
+    ProdutoController.Delete;
+
+end;
+
 procedure TProdutoViewVis.btnIncluirClick(Sender: TObject);
 begin
   ProdutoController.CreateView(stInsert,True);
+end;
+
+procedure TProdutoViewVis.btnPesquisarClick(Sender: TObject);
+begin
+  if Trim(edtID.Text) <> '' then
+    ProdutoController.Search(edtID.Text)
+  else if Trim(edtDescricao.Text) <> '' then
+    ProdutoController.Search(edtDescricao.Text);
+
+
 end;
 
 procedure TProdutoViewVis.FormClose(Sender: TObject; var Action: TCloseAction);

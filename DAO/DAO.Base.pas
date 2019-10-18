@@ -19,13 +19,13 @@ TBaseDAO = class
   procedure SetParameters(var FDQuery: TFDQuery; const AModel: TBaseModel); virtual; abstract;
   function SetModelByDataSet(DataSet: TDataSet) : TBaseModel; virtual; abstract;
   function Insert(AModel: TBaseModel): Integer; virtual;
-  function Update(AModel: TBaseModel): Integer; virtual;
+  function Delete(AModel: TBaseModel): Boolean; virtual;
   function InsertText : string; virtual; abstract;
-  function UpdateText : string; virtual; abstract;
   function AtualizaGrid(AID:integer) : string; virtual; abstract;
   function FindText(AID: Integer) : string; virtual; abstract;
   function FindByID(AID: Integer) : TBaseModel; virtual;
   property Model: TBaseModel read FModel write SetModel;
+  function Search(AText: string) : string; virtual; abstract;
 end;
 
 implementation
@@ -39,6 +39,27 @@ uses
 
 constructor TBaseDAO.Create;
 begin
+
+end;
+
+function TBaseDAO.Delete(AModel: TBaseModel): Boolean;
+var
+  FDQuery: TFDQuery;
+begin
+  FDQuery := TFDQuery.Create(nil);
+  try
+    try
+      FDQuery.Connection := TConnectionSingleton.GetInstance.Connection;
+      FDQuery.Close;
+      FDQuery.SQL.Text := 'DELETE FROM '+AModel.Table+' where ID = '+IntToStr(AModel.ID);
+      FDQuery.ExecSQL;
+      Result := True;
+    except on E: Exception do
+      Application.MessageBox('Ocoreu um Erro durante o Processo de Exclusão!','Erro');
+    end;
+  finally
+    FreeAndNil(FDQuery);
+  end;
 
 end;
 
@@ -103,7 +124,7 @@ begin
       FDQuery.Open;
       Result := FDQuery.Fields[0].AsInteger;
     except on E: Exception do
-      Application.MessageBox('Erro','Ocoreu um Erro durante o Processo de Gravação!');
+      Application.MessageBox('Ocoreu um Erro durante o Processo de Gravação!','Erro');
     end;
   finally
     FreeAndNil(FDQuery);
@@ -119,25 +140,6 @@ begin
   FModel := Value;
 end;
 
-function TBaseDAO.Update(AModel: TBaseModel): Integer;
-var
-  FDQuery: TFDQuery;
-begin
-  FDQuery := TFDQuery.Create(nil);
-  try
-    try
-      FDQuery.Connection := TConnectionSingleton.GetInstance.Connection;
-      FDQuery.Close;
-      FDQuery.SQL.Text := UpdateText;
-      SetParameters(FDQuery, AModel);
-      FDQuery.Open;
-      Result := FDQuery.Fields[0].AsInteger;
-    except on E: Exception do
-      Application.MessageBox('Erro','Ocoreu um Erro durante o Processo de Gravação!');
-    end;
-  finally
-    FreeAndNil(FDQuery);
-  end;
-end;
+
 
 end.

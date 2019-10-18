@@ -14,7 +14,13 @@ uses
   DAO.Base in 'DAO\DAO.Base.pas',
   Singleton.Connection in 'Singleton\Singleton.Connection.pas',
   Model.Base in 'Model\Model.Base.pas',
-  Controller.Base in 'Controller\Controller.Base.pas';
+  Controller.Base in 'Controller\Controller.Base.pas',
+  Template in 'Template\Template.pas' {Template},
+  View.ClienteVis in 'View\View.ClienteVis.pas' {ClienteVisView},
+  View.Cliente in 'View\View.Cliente.pas' {ClienteView},
+  Controller.Cliente in 'Controller\Controller.Cliente.pas',
+  DAO.Cliente in 'DAO\DAO.Cliente.pas',
+  Model.Cliente in 'Model\Model.Cliente.pas';
 
 {$R *.res}
 
@@ -22,5 +28,7 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TMenuView, MenuView);
+  Application.CreateForm(TClienteVisView, ClienteVisView);
+  Application.CreateForm(TClienteView, ClienteView);
   Application.Run;
 end.

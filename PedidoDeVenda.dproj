@@ -122,6 +122,21 @@
         <DCCReference Include="Singleton\Singleton.Connection.pas"/>
         <DCCReference Include="Model\Model.Base.pas"/>
         <DCCReference Include="Controller\Controller.Base.pas"/>
+        <DCCReference Include="Template\Template.pas">
+            <Form>Template</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="View\View.ClienteVis.pas">
+            <Form>ClienteVisView</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="View\View.Cliente.pas">
+            <Form>ClienteView</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Controller\Controller.Cliente.pas"/>
+        <DCCReference Include="DAO\DAO.Cliente.pas"/>
+        <DCCReference Include="Model\Model.Cliente.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

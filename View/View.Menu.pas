@@ -13,6 +13,7 @@ type
     btnProduto: TButton;
     btnCliente: TButton;
     procedure btnProdutoClick(Sender: TObject);
+    procedure btnClienteClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -26,7 +27,13 @@ implementation
 
 {$R *.dfm}
 
-uses View.ProdutoVis;
+uses View.ProdutoVis, View.ClienteVis;
+
+procedure TMenuView.btnClienteClick(Sender: TObject);
+begin
+  Application.CreateForm(TClienteVisView, ClienteVisView);
+  ClienteVisView.ShowModal;
+end;
 
 procedure TMenuView.btnProdutoClick(Sender: TObject);
 begin
