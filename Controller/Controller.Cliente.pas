@@ -58,6 +58,8 @@ begin
      begin
       Application.CreateForm(TClienteView, ClienteView);
       Model := DAO.FindByID(ClienteVisView.FDQueryGrid.FieldByName('ID').AsInteger);
+      ClienteView.lbl1.Visible := True;
+      ClienteView.lblID.Visible := True;
       SetViewByModel;
       if AModal then
         ClienteView.ShowModal
@@ -102,6 +104,9 @@ procedure TClienteController.SetModelByView;
 begin
   with TClienteModel(Model), ClienteView do
   begin
+    if lblID.Caption <> ''  then
+      ID := StrToInt(lblID.Caption);
+
     RazaoSocial := edtRazaoSocial.Text;
     NomeFantasia := edtNomeFantasia.Text;
     CNPJ := edtCNPJ.Text;
@@ -120,6 +125,7 @@ procedure TClienteController.SetViewByModel;
 begin
   with TClienteModel(Model), ClienteView do
   begin
+    lblID.Caption := IntToStr(ID);
     edtRazaoSocial.Text := RazaoSocial;
     edtNomeFantasia.Text := NomeFantasia;
     edtCNPJ.Text := CNPJ;

@@ -1,5 +1,5 @@
 inherited ClienteVisView: TClienteVisView
-  Caption = 'Clientes'
+  Caption = 'ClienteVisView'
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   PixelsPerInch = 96
@@ -16,15 +16,6 @@ inherited ClienteVisView: TClienteVisView
     end
     inherited btnExcluir: TButton
       OnClick = btnExcluirClick
-      ExplicitLeft = 157
-      ExplicitTop = -4
-    end
-    inherited edtDescricao: TLabeledEdit
-      EditLabel.Width = 31
-      EditLabel.Caption = 'Nome:'
-      EditLabel.ExplicitLeft = 335
-      EditLabel.ExplicitTop = 44
-      EditLabel.ExplicitWidth = 31
     end
   end
 end

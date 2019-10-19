@@ -21,6 +21,8 @@ type
     edtTelefone: TLabeledEdit;
     btnGravar: TButton;
     btnCancelar: TButton;
+    lbl1: TLabel;
+    lblID: TLabel;
     procedure btnGravarClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);

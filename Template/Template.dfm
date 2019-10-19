@@ -1,8 +1,8 @@
-object Template: TTemplate
+object TemplateVisView: TTemplateVisView
   Left = 0
   Top = 0
-  Caption = 'Template'
-  ClientHeight = 343
+  Caption = 'TemplateVisView'
+  ClientHeight = 342
   ClientWidth = 753
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET

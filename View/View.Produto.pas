@@ -9,11 +9,12 @@ uses
 type
   TProdutoView = class(TForm)
     EdtDescricao: TLabeledEdit;
-    EdtId: TLabeledEdit;
     EdtCusto: TLabeledEdit;
     EdtValorVenda: TLabeledEdit;
     btnGravar: TButton;
     btnCancelar: TButton;
+    lblID: TLabel;
+    lbl1: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnGravarClick(Sender: TObject);

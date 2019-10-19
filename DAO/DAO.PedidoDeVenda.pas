@@ -1,4 +1,4 @@
-unit DAO.Cliente;
+unit DAO.PedidoDeVenda;
 
 interface
 
@@ -7,7 +7,7 @@ uses
 
 type
 
-  TClienteDAO = class(TBaseDAO)
+  TPedidoDeVendaDAO = class(TBaseDAO)
     public
     constructor Create; overload;
     destructor Destroy; overload;
@@ -25,10 +25,10 @@ implementation
 uses
   System.SysUtils, Singleton.Connection, Model.Cliente;
 
-{ TClienteDAO }
+{ TPedidoDeVendaDAO }
 
 
-function TClienteDAO.AtualizaGrid(AID: Integer): string;
+function TPedidoDeVendaDAO.AtualizaGrid(AID: Integer): string;
 var
   SB: TStringBuilder;
 begin
@@ -42,17 +42,17 @@ begin
 end;
 
 
-constructor TClienteDAO.Create;
+constructor TPedidoDeVendaDAO.Create;
 begin
   Model := TClienteModel.Create;
 end;
 
-destructor TClienteDAO.Destroy;
+destructor TPedidoDeVendaDAO.Destroy;
 begin
 
 end;
 
-function TClienteDAO.FindText(AID: Integer): string;
+function TPedidoDeVendaDAO.FindText(AID: Integer): string;
 var
   SB: TStringBuilder;
 begin
@@ -65,7 +65,7 @@ begin
   end;
 end;
 
-function TClienteDAO.InsertText: string;
+function TPedidoDeVendaDAO.InsertText: string;
 var
    SB: TStringBuilder;
 begin
@@ -85,7 +85,7 @@ begin
 
 end;
 
-function TClienteDAO.Search(AText: string): string;
+function TPedidoDeVendaDAO.Search(AText: string): string;
 var
    SB: TStringBuilder;
    Value: integer;
@@ -107,7 +107,7 @@ begin
   end;
 end;
 
-function TClienteDAO.SetModelByDataSet(DataSet: TDataSet) : TBaseModel;
+function TPedidoDeVendaDAO.SetModelByDataSet(DataSet: TDataSet) : TBaseModel;
 var
   ModelUpdate: TClienteModel;
 begin
@@ -130,7 +130,7 @@ begin
   Result := ModelUpdate;
 end;
 
-procedure TClienteDAO.SetParameters(var FDQuery: TFDQuery;
+procedure TPedidoDeVendaDAO.SetParameters(var FDQuery: TFDQuery;
   const AModel: TBaseModel);
 begin
 

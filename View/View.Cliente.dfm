@@ -14,6 +14,33 @@ object ClienteView: TClienteView
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
+  object lbl1: TLabel
+    Left = 32
+    Top = 8
+    Width = 23
+    Height = 18
+    Caption = 'ID:'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+    Visible = False
+  end
+  object lblID: TLabel
+    Left = 61
+    Top = 8
+    Width = 4
+    Height = 18
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+    Visible = False
+  end
   object edtRazaoSocial: TLabeledEdit
     Left = 96
     Top = 32

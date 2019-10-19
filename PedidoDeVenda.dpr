@@ -15,12 +15,17 @@ uses
   Singleton.Connection in 'Singleton\Singleton.Connection.pas',
   Model.Base in 'Model\Model.Base.pas',
   Controller.Base in 'Controller\Controller.Base.pas',
-  Template in 'Template\Template.pas' {Template},
-  View.ClienteVis in 'View\View.ClienteVis.pas' {ClienteVisView},
+  Template in 'Template\Template.pas' {TemplateVisView},
   View.Cliente in 'View\View.Cliente.pas' {ClienteView},
   Controller.Cliente in 'Controller\Controller.Cliente.pas',
   DAO.Cliente in 'DAO\DAO.Cliente.pas',
-  Model.Cliente in 'Model\Model.Cliente.pas';
+  Model.Cliente in 'Model\Model.Cliente.pas',
+  View.PedidoDeVendaVis in 'View\View.PedidoDeVendaVis.pas' {PedidoDeVendaVisView},
+  Controller.PedidoDeVenda in 'Controller\Controller.PedidoDeVenda.pas',
+  DAO.PedidoDeVenda in 'DAO\DAO.PedidoDeVenda.pas',
+  View.PedidoDeVenda in 'View\View.PedidoDeVenda.pas' {PedidoDeVendaView},
+  View.ClienteVis in 'View\View.ClienteVis.pas' {ClienteVisView},
+  Model.PedidoDeVenda in 'Model\Model.PedidoDeVenda.pas';
 
 {$R *.res}
 
@@ -28,7 +33,9 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TMenuView, MenuView);
-  Application.CreateForm(TClienteVisView, ClienteVisView);
   Application.CreateForm(TClienteView, ClienteView);
+  Application.CreateForm(TPedidoDeVendaVisView, PedidoDeVendaVisView);
+  Application.CreateForm(TPedidoDeVendaView, PedidoDeVendaView);
+  Application.CreateForm(TClienteVisView, ClienteVisView);
   Application.Run;
 end.

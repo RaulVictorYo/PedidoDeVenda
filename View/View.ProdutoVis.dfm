@@ -43,7 +43,6 @@ object ProdutoViewVis: TProdutoViewVis
       Caption = 'Alterar'
       TabOrder = 1
       OnClick = btnAlterarClick
-      ExplicitHeight = 71
     end
     object btnIncluir: TButton
       Left = 1
@@ -54,7 +53,6 @@ object ProdutoViewVis: TProdutoViewVis
       Caption = 'Incluir'
       TabOrder = 2
       OnClick = btnIncluirClick
-      ExplicitHeight = 71
     end
     object btnExcluir: TButton
       Left = 151
@@ -65,7 +63,6 @@ object ProdutoViewVis: TProdutoViewVis
       Caption = 'Excluir'
       TabOrder = 3
       OnClick = btnExcluirClick
-      ExplicitHeight = 71
     end
     object edtID: TLabeledEdit
       Left = 369

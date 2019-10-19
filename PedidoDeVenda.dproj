@@ -123,11 +123,7 @@
         <DCCReference Include="Model\Model.Base.pas"/>
         <DCCReference Include="Controller\Controller.Base.pas"/>
         <DCCReference Include="Template\Template.pas">
-            <Form>Template</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="View\View.ClienteVis.pas">
-            <Form>ClienteVisView</Form>
+            <Form>TemplateVisView</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="View\View.Cliente.pas">
@@ -137,6 +133,21 @@
         <DCCReference Include="Controller\Controller.Cliente.pas"/>
         <DCCReference Include="DAO\DAO.Cliente.pas"/>
         <DCCReference Include="Model\Model.Cliente.pas"/>
+        <DCCReference Include="View\View.PedidoDeVendaVis.pas">
+            <Form>PedidoDeVendaVisView</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Controller\Controller.PedidoDeVenda.pas"/>
+        <DCCReference Include="DAO\DAO.PedidoDeVenda.pas"/>
+        <DCCReference Include="View\View.PedidoDeVenda.pas">
+            <Form>PedidoDeVendaView</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="View\View.ClienteVis.pas">
+            <Form>ClienteVisView</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Model\Model.PedidoDeVenda.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

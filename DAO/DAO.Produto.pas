@@ -128,7 +128,11 @@ begin
 
   with FDQuery, TProdutoModel(AModel) do
   begin
-    ParamByName('ID').AsInteger := Id;
+    if AModel.ID <> 0 then
+      ParamByName('ID').AsInteger := AModel.ID
+    else
+      ParamByName('ID').AsInteger := GetNewID(AModel);
+
     ParamByName('Descricao').AsString := Descricao;
     ParamByName('Custo').AsFloat := Custo;
     ParamByName('ValorVenda').AsFloat := ValorVenda;

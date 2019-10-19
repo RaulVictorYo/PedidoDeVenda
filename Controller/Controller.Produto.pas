@@ -49,7 +49,6 @@ begin
     stInsert:
     begin
       Application.CreateForm(TProdutoView, ProdutoView);
-      ProdutoView.EdtId.Text := IntToStr(DAO.GetNewID(Model));
       if AModal then
         ProdutoView.ShowModal
       else
@@ -59,6 +58,8 @@ begin
      begin
       Application.CreateForm(TProdutoView, ProdutoView);
       Model := DAO.FindByID(ProdutoViewVis.FDQueryGrid.FieldByName('ID').AsInteger);
+      ProdutoView.lbl1.Visible := True;
+      ProdutoView.lblID.Visible := True;
       SetViewByModel;
       if AModal then
         ProdutoView.ShowModal
@@ -103,7 +104,8 @@ procedure TProdutoController.SetModelByView;
 begin
   with TProdutoModel(Model), ProdutoView do
   begin
-    ID := StrToInt(EdtId.Text);
+    if lblID.Caption <> ''  then
+      ID := StrToInt(lblID.Caption);
     Descricao := EdtDescricao.Text;
     Custo := StrToFloat(EdtCusto.Text);
     ValorVenda := StrToFloat(EdtValorVenda.Text);
@@ -114,7 +116,7 @@ procedure TProdutoController.SetViewByModel;
 begin
   with TProdutoModel(Model), ProdutoView do
   begin
-    EdtId.Text := IntToStr(ID) ;
+    lblID.Caption := IntToStr(ID);
     EdtDescricao.Text := Descricao;
     EdtCusto.Text := FormatFloat('0.00',Custo);
     EdtValorVenda.Text := FormatFloat('0.00',ValorVenda);

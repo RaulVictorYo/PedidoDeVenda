@@ -11,7 +11,7 @@ uses
   FireDAC.Comp.Client;
 
 type
-  TTemplate = class(TForm)
+  TTemplateVisView = class(TForm)
     DataSource1: TDataSource;
     FDQueryGrid: TFDQuery;
     DBGrid1: TDBGrid;
@@ -29,7 +29,7 @@ type
   end;
 
 var
-  TemplateVisView: TTemplate;
+  TemplateVisView: TTemplateVisView;
 
 implementation
 

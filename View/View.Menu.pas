@@ -14,6 +14,7 @@ type
     btnCliente: TButton;
     procedure btnProdutoClick(Sender: TObject);
     procedure btnClienteClick(Sender: TObject);
+    procedure btnPedidoDeVendaClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -27,12 +28,18 @@ implementation
 
 {$R *.dfm}
 
-uses View.ProdutoVis, View.ClienteVis;
+uses View.ProdutoVis, View.ClienteVis, View.PedidoDeVendaVis;
 
 procedure TMenuView.btnClienteClick(Sender: TObject);
 begin
   Application.CreateForm(TClienteVisView, ClienteVisView);
   ClienteVisView.ShowModal;
+end;
+
+procedure TMenuView.btnPedidoDeVendaClick(Sender: TObject);
+begin
+  Application.CreateForm(TPedidoDeVendaVisView, PedidoDeVendaVisView);
+  PedidoDeVendaVisView.ShowModal;
 end;
 
 procedure TMenuView.btnProdutoClick(Sender: TObject);

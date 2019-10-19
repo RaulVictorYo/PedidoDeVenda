@@ -66,9 +66,17 @@ end;
 procedure TProdutoViewVis.btnPesquisarClick(Sender: TObject);
 begin
   if Trim(edtID.Text) <> '' then
-    ProdutoController.Search(edtID.Text)
+  begin
+    ProdutoController.Search(edtID.Text);
+  end
   else if Trim(edtDescricao.Text) <> '' then
+  begin
     ProdutoController.Search(edtDescricao.Text);
+  end
+  else
+  begin
+    ProdutoController.Search('');
+  end;
 
 
 end;

@@ -28,6 +28,7 @@ object MenuView: TMenuView
       Align = alLeft
       Caption = 'Pedido de Venda'
       TabOrder = 0
+      OnClick = btnPedidoDeVendaClick
     end
     object btnProduto: TButton
       Left = 76
