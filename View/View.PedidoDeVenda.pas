@@ -43,6 +43,13 @@ var
 
 implementation
 
+uses
+  Controller.PedidoDeVenda;
+
+
+var
+  PedidoVendaController: TPedidoDeVendaController;
+
 {$R *.dfm}
 
 procedure TPedidoDeVendaView.edtClienteKeyDown(Sender: TObject; var Key: Word;
@@ -52,7 +59,8 @@ begin
 
     VK_RETURN:
     begin
-      if Trim(edtCliente.Text) <> '' then
+      if edtCliente.Text <> '' then
+       PedidoVendaController.SearchCliente(edtCliente.Text);
 
     end;
 
@@ -63,12 +71,17 @@ end;
 
 procedure TPedidoDeVendaView.FormCreate(Sender: TObject);
 begin
+
+  PedidoVendaController := TPedidoDeVendaController.Create;
+
   GroupColum := TStringList.Create;
 
   GroupColum.Add('Produto');
   GroupColum.Add('Quantidade');
   GroupColum.Add('ValorUnitario');
   GroupColum.Add('ValorTotal');
+  GroupColum.Add('CustoUnitario');
+  GroupColum.Add('ID');
 
 end;
 
@@ -80,6 +93,12 @@ begin
   stgrdItens.Cells[GroupColum.IndexOf('ValorUnitario'),0] := 'Vlr. Unitário';
   stgrdItens.Cells[GroupColum.IndexOf('ValorTotal'),0] := 'Vlr. Total';
 
+  stgrdItens.ColWidths[GroupColum.IndexOf('Produto')] := 350;
+  stgrdItens.ColWidths[GroupColum.IndexOf('Quantidade')] := 64;
+  stgrdItens.ColWidths[GroupColum.IndexOf('ValorUnitario')] := 100;
+  stgrdItens.ColWidths[GroupColum.IndexOf('ValorTotal')] := 100;
+  stgrdItens.ColWidths[GroupColum.IndexOf('CustoUnitario')] := -1;
+  stgrdItens.ColWidths[GroupColum.IndexOf('ID')] := -1;
 end;
 
 procedure TPedidoDeVendaView.stgrdItensDrawCell(Sender: TObject; ACol,

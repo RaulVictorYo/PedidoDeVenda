@@ -8,7 +8,7 @@ uses
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
-  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids;
+  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Model.Cliente;
 
 type
   TClienteVisView = class(TTemplateVisView)
@@ -18,10 +18,17 @@ type
     procedure btnPesquisarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure DBGrid1KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
+    FViewPesquisa: Boolean;
+    procedure SetViewPesquisa(const Value: Boolean);
     { Private declarations }
   public
     { Public declarations }
+    property ViewPesquisa: Boolean read FViewPesquisa write SetViewPesquisa default False;
+    function DevolverPesquisa(Model: TClienteModel): TClienteModel;
   end;
 
 var
@@ -31,7 +38,8 @@ var
 implementation
 
 uses
-  Util.Enum, Singleton.Connection, Controller.Cliente;
+  Util.Enum, Singleton.Connection, Controller.Cliente,
+  Controller.PedidoDeVenda;
 
 var
   ClienteController: TClienteController;
@@ -75,6 +83,38 @@ begin
 end;
 
 
+procedure TClienteVisView.DBGrid1KeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+var
+  PedidoController : TPedidoDeVendaController;
+begin
+  inherited;
+  if ViewPesquisa then
+  begin
+    case Key of
+
+      VK_RETURN:
+      begin
+         PedidoController.Cliente := DevolverPesquisa(PedidoController.Cliente);
+         Close;
+      end;
+
+
+
+    end;
+  end;
+
+end;
+
+
+function TClienteVisView.DevolverPesquisa(Model: TClienteModel): TClienteModel;
+begin
+  Model := TClienteModel.Create;
+  Model.ID := FDQueryGrid.FieldByName('ID').AsInteger;
+  Model.RazaoSocial := FDQueryGrid.FieldByName('RazaoSocial').AsString;
+  Result := Model;
+end;
+
 procedure TClienteVisView.FormCreate(Sender: TObject);
 begin
   inherited;
@@ -87,6 +127,21 @@ procedure TClienteVisView.FormDestroy(Sender: TObject);
 begin
   inherited;
   FreeAndNil(ClienteController);
+end;
+
+procedure TClienteVisView.FormShow(Sender: TObject);
+begin
+  inherited;
+  if ViewPesquisa then
+  begin
+    ClienteVisView.WindowState := wsNormal;
+    ClienteVisView.BorderStyle := bsDialog;
+  end;
+end;
+
+procedure TClienteVisView.SetViewPesquisa(const Value: Boolean);
+begin
+  FViewPesquisa := Value;
 end;
 
 end.

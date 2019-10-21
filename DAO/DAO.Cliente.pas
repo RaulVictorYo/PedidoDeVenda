@@ -97,8 +97,11 @@ begin
       SB.Append('AND ID =' + AText)
     else
     begin
+      if Trim(AText) <> '' then
+      begin
       SB.Append('AND RAZAOSOCIAL LIKE ''%');
       SB.Append(AText +'%''');
+      end;
     end;
 
     Result := SB.ToString;

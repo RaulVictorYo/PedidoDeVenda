@@ -75,6 +75,7 @@ object PedidoDeVendaView: TPedidoDeVendaView
       Width = 926
       Height = 246
       Align = alClient
+      ColCount = 6
       FixedCols = 0
       RowCount = 2
       Font.Charset = DEFAULT_CHARSET
@@ -87,6 +88,7 @@ object PedidoDeVendaView: TPedidoDeVendaView
       TabOrder = 0
       OnDrawCell = stgrdItensDrawCell
       ColWidths = (
+        64
         64
         64
         64
