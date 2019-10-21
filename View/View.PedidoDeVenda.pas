@@ -24,12 +24,18 @@ type
     lbl4: TLabel;
     lblID: TLabel;
     lbl5: TLabel;
+    lbl6: TLabel;
+    lbl7: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure stgrdItensDrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
     procedure edtClienteKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure stgrdItensKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure stgrdItensKeyPress(Sender: TObject; var Key: Char);
+    procedure btnGravarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -51,6 +57,11 @@ var
   PedidoVendaController: TPedidoDeVendaController;
 
 {$R *.dfm}
+
+procedure TPedidoDeVendaView.btnGravarClick(Sender: TObject);
+begin
+  PedidoVendaController.Gravar;
+end;
 
 procedure TPedidoDeVendaView.edtClienteKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
@@ -106,6 +117,90 @@ procedure TPedidoDeVendaView.stgrdItensDrawCell(Sender: TObject; ACol,
 begin
   if ARow = 0 then
     stgrdItens.Canvas.Font.Style := [fsBold];
+end;
+
+procedure TPedidoDeVendaView.stgrdItensKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  case Key of
+
+    VK_RETURN:
+    begin
+
+      if stgrdItens.Cells[GroupColum.IndexOf('ID'),stgrdItens.Row] = '' then
+      begin
+        if stgrdItens.Col = GroupColum.IndexOf('Produto') then
+        begin
+
+         PedidoVendaController.SearchProduto(stgrdItens.Cells[GroupColum.IndexOf('Produto'),stgrdItens.Row],stgrdItens.Row);
+
+        end;
+      end;
+
+    end;
+
+    VK_TAB:
+    begin
+      if (stgrdItens.Col = GroupColum.IndexOf('Quantidade')) or (stgrdItens.Col = GroupColum.IndexOf('ValorUnitario')) then
+      begin
+        stgrdItens.Cells[GroupColum.IndexOf('ValorUnitario'),stgrdItens.Row] := FormatFloat('0.00', StrToFloat(stgrdItens.Cells[GroupColum.IndexOf('ValorUnitario'),stgrdItens.Row]));
+        stgrdItens.Cells[GroupColum.IndexOf('Quantidade'),stgrdItens.Row] := FormatFloat('0.00', StrToFloat(stgrdItens.Cells[GroupColum.IndexOf('Quantidade'),stgrdItens.Row]));
+        stgrdItens.Cells[GroupColum.IndexOf('ValorTotal'),stgrdItens.Row] := FormatFloat('0.00', StrToFloat(stgrdItens.Cells[GroupColum.IndexOf('Quantidade'),stgrdItens.Row]) * StrToFloat(stgrdItens.Cells[GroupColum.IndexOf('ValorUnitario'),stgrdItens.Row]))
+      end;
+    end;
+
+    VK_DOWN:
+    begin
+      if stgrdItens.Cells[GroupColum.IndexOf('ID'),stgrdItens.Row] <> '' then
+      begin
+        stgrdItens.RowCount := stgrdItens.RowCount + 1;
+        stgrdItens.Col := GroupColum.IndexOf('Produto');
+        stgrdItens.Row := stgrdItens.Row + 1;
+      end;
+    end;
+
+    VK_DELETE:
+    begin
+
+        if Shift = [ssShift] then
+        begin
+          stgrdItens.Rows[stgrdItens.Row].Clear;
+          if (stgrdItens.RowCount - 1 = stgrdItens.Row) then
+          begin
+            if (stgrdItens.RowCount - 1 > 1) then
+            begin
+              stgrdItens.RowCount := stgrdItens.RowCount - 1;
+            end;
+          end;
+        end;
+
+
+    end;
+
+  end;
+
+
+
+end;
+
+procedure TPedidoDeVendaView.stgrdItensKeyPress(Sender: TObject; var Key: Char);
+begin
+
+  if Key <> Char(VK_RETURN) then
+  begin
+     if stgrdItens.Col = GroupColum.IndexOf('Produto') then
+     begin
+
+       stgrdItens.Cells[GroupColum.IndexOf('ID'),stgrdItens.Row] := '';
+
+     end;
+  end;
+
+
+  if stgrdItens.Col = GroupColum.IndexOf('ValorTotal') then
+  begin
+    Key := Char(0);
+  end;
 end;
 
 end.

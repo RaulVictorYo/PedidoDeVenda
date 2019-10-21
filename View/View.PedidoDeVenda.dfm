@@ -87,6 +87,8 @@ object PedidoDeVendaView: TPedidoDeVendaView
       ParentFont = False
       TabOrder = 0
       OnDrawCell = stgrdItensDrawCell
+      OnKeyDown = stgrdItensKeyDown
+      OnKeyPress = stgrdItensKeyPress
       ColWidths = (
         64
         64
@@ -179,6 +181,32 @@ object PedidoDeVendaView: TPedidoDeVendaView
       Font.Style = [fsBold]
       ParentFont = False
     end
+    object lbl6: TLabel
+      Left = 8
+      Top = 80
+      Width = 117
+      Height = 13
+      Caption = 'PESQUISAR: [ENTER] '
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lbl7: TLabel
+      Left = 131
+      Top = 80
+      Width = 229
+      Height = 13
+      Caption = 'ADICIONAR LINHA: [SETA PARA BAIXO '#8595'] '
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
     object btnGravar: TButton
       Left = 640
       Top = 56
@@ -186,6 +214,7 @@ object PedidoDeVendaView: TPedidoDeVendaView
       Height = 25
       Caption = 'Gravar'
       TabOrder = 0
+      OnClick = btnGravarClick
     end
     object btnCancelar: TButton
       Left = 767

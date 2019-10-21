@@ -23,12 +23,15 @@ type
       Shift: TShiftState);
   private
     FViewPesquisa: Boolean;
+    FCliente: TClienteModel;
     procedure SetViewPesquisa(const Value: Boolean);
+    procedure SetCliente(const Value: TClienteModel);
     { Private declarations }
   public
     { Public declarations }
     property ViewPesquisa: Boolean read FViewPesquisa write SetViewPesquisa default False;
     function DevolverPesquisa(Model: TClienteModel): TClienteModel;
+    property Cliente: TClienteModel read FCliente write SetCliente;
   end;
 
 var
@@ -38,8 +41,7 @@ var
 implementation
 
 uses
-  Util.Enum, Singleton.Connection, Controller.Cliente,
-  Controller.PedidoDeVenda;
+  Util.Enum, Singleton.Connection, Controller.Cliente;
 
 var
   ClienteController: TClienteController;
@@ -85,8 +87,6 @@ end;
 
 procedure TClienteVisView.DBGrid1KeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
-var
-  PedidoController : TPedidoDeVendaController;
 begin
   inherited;
   if ViewPesquisa then
@@ -95,7 +95,7 @@ begin
 
       VK_RETURN:
       begin
-         PedidoController.Cliente := DevolverPesquisa(PedidoController.Cliente);
+         Cliente := DevolverPesquisa(Cliente);
          Close;
       end;
 
@@ -137,6 +137,11 @@ begin
     ClienteVisView.WindowState := wsNormal;
     ClienteVisView.BorderStyle := bsDialog;
   end;
+end;
+
+procedure TClienteVisView.SetCliente(const Value: TClienteModel);
+begin
+  FCliente := Value;
 end;
 
 procedure TClienteVisView.SetViewPesquisa(const Value: Boolean);

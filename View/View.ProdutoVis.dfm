@@ -13,6 +13,7 @@ object ProdutoViewVis: TProdutoViewVis
   OldCreateOrder = False
   OnClose = FormClose
   OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -31,8 +32,6 @@ object ProdutoViewVis: TProdutoViewVis
       Caption = 'Pesquisar'
       TabOrder = 0
       OnClick = btnPesquisarClick
-      ExplicitLeft = 239
-      ExplicitTop = -4
     end
     object btnAlterar: TButton
       Left = 76
@@ -100,6 +99,7 @@ object ProdutoViewVis: TProdutoViewVis
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+    OnKeyDown = DBGrid1KeyDown
     Columns = <
       item
         Expanded = False

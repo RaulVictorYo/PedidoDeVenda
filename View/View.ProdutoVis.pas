@@ -9,7 +9,7 @@ uses
   Controller.Produto, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
   FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client;
+  FireDAC.Comp.Client, Model.Produto;
 
 type
   TProdutoViewVis = class(TForm)
@@ -29,10 +29,22 @@ type
     procedure btnAlterarClick(Sender: TObject);
     procedure btnPesquisarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
+    procedure DBGrid1KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure FormShow(Sender: TObject);
   private
+    FViewPesquisa: Boolean;
+  private
+    FProduto: TProdutoModel;
+    procedure SetViewPesquisa(const Value: Boolean);
+    procedure SetProduto(const Value: TProdutoModel);
+  published
     { Private declarations }
   public
     { Public declarations }
+     property ViewPesquisa: Boolean read FViewPesquisa write SetViewPesquisa;
+     property Produto: TProdutoModel read FProduto write SetProduto;
+     function DevolverPesquisa(Model: TProdutoModel): TProdutoModel;
   end;
 
 var
@@ -81,6 +93,35 @@ begin
 
 end;
 
+procedure TProdutoViewVis.DBGrid1KeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if ViewPesquisa then
+  begin
+    case Key of
+
+      VK_RETURN:
+      begin
+         Produto := DevolverPesquisa(Produto);
+         Close;
+      end;
+
+
+
+    end;
+  end;
+end;
+
+function TProdutoViewVis.DevolverPesquisa(Model: TProdutoModel): TProdutoModel;
+begin
+  Model := TProdutoModel.Create;
+  Model.ID := FDQueryGrid.FieldByName('ID').AsInteger;
+  Model.Descricao := FDQueryGrid.FieldByName('Descricao').AsString;
+  Model.Custo := FDQueryGrid.FieldByName('Custo').AsFloat;
+  Model.ValorVenda := FDQueryGrid.FieldByName('ValorVenda').AsFloat;
+  Result := Model;
+end;
+
 procedure TProdutoViewVis.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   FreeAndNil(ProdutoController);
@@ -92,5 +133,20 @@ begin
   FDQueryGrid.Connection := TConnectionSingleton.GetInstance.Connection;
 end;
 
+
+procedure TProdutoViewVis.FormShow(Sender: TObject);
+begin
+  DBGrid1.SetFocus;
+end;
+
+procedure TProdutoViewVis.SetProduto(const Value: TProdutoModel);
+begin
+  FProduto := Value;
+end;
+
+procedure TProdutoViewVis.SetViewPesquisa(const Value: Boolean);
+begin
+  FViewPesquisa := Value;
+end;
 
 end.

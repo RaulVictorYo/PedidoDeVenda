@@ -4,14 +4,17 @@ interface
 
 uses
   Util.Enum, Controller.Base,
-  Model.Base, DAO.PedidoDeVenda, View.PedidoDeVenda, Model.Cliente;
+  Model.Base, DAO.PedidoDeVenda, View.PedidoDeVenda, Model.Cliente,
+  Model.Produto;
 
 type
 
 TPedidoDeVendaController = class(TBaseController)
   private
     FCliente: TClienteModel;
+    FProduto: TProdutoModel;
     procedure SetCliente(const Value: TClienteModel);
+    procedure SetProduto(const Value: TProdutoModel);
   public
   constructor Create; overload;
   destructor Destroy; overload;
@@ -21,8 +24,10 @@ TPedidoDeVendaController = class(TBaseController)
   procedure SetViewByModel; override;
   procedure Search(AText : string);
   procedure SearchCliente(AText : string);
+  procedure SearchProduto(AText : string; ARow: integer);
   procedure Delete; override;
   property Cliente: TClienteModel read FCliente write SetCliente;
+  property Produto: TProdutoModel read FProduto write SetProduto;
 
 
 
@@ -37,7 +42,8 @@ implementation
 
 uses
   Vcl.Forms, System.SysUtils, View.PedidoDeVendaVis, Model.PedidoDeVenda,
-  View.ClienteVis, FireDAC.Comp.Client, DAO.Cliente, Singleton.Connection;
+  View.ClienteVis, FireDAC.Comp.Client, DAO.Cliente, Singleton.Connection,
+  DAO.Produto, View.ProdutoVis, System.Generics.Collections;
 
 { TPedidoDeVendaController }
 
@@ -131,12 +137,60 @@ begin
     ClienteVisView.FDQueryGrid.SQL.Text := FDQuery.SQL.Text;
     ClienteVisView.FDQueryGrid.Active := True;
     ClienteVisView.ShowModal;
+    Cliente := ClienteVisView.Cliente;
     PedidoDeVendaView.edtCliente.Tag := Cliente.ID;
     PedidoDeVendaView.edtCliente.Text := Cliente.RazaoSocial;
   end;
 
 
 
+end;
+
+procedure TPedidoDeVendaController.SearchProduto(AText: string; ARow: integer);
+var
+  FDQuery: TFDQuery;
+  DAOProduto : TProdutoDAO;
+begin
+  DAOProduto := TProdutoDAO.Create;
+  FDQuery := TFDQuery.Create(nil);
+  FDQuery.Connection := TConnectionSingleton.GetInstance.Connection;
+  FDQuery.Close;
+  FDQuery.SQL.Text := DAOProduto.Search(AText);
+  FDQuery.Open;
+
+  if FDQuery.RecordCount = 1 then
+  begin
+
+    with PedidoDeVendaView do
+    begin
+      stgrdItens.Cells[GroupColum.IndexOf('ID'), ARow] := IntToStr(FDQuery.FieldByName('ID').AsInteger);
+      stgrdItens.Cells[GroupColum.IndexOf('Produto'), ARow] := FDQuery.FieldByName('DESCRICAO').AsString;
+      stgrdItens.Cells[GroupColum.IndexOf('CustoUnitario'), ARow] := FDQuery.FieldByName('Custo').AsString;
+      stgrdItens.Cells[GroupColum.IndexOf('ValorUnitario'), ARow] := FDQuery.FieldByName('VALORVENDA').AsString;
+      stgrdItens.Cells[GroupColum.IndexOf('Quantidade'), ARow] := '1.00';
+      stgrdItens.Cells[GroupColum.IndexOf('ValorTotal'), ARow] := FormatFloat('0.00', Produto.ValorVenda);
+
+    end;
+  end
+  else
+  begin
+    Application.CreateForm(TProdutoViewVis, ProdutoViewVis);
+    ProdutoViewVis.ViewPesquisa := True;
+    ProdutoViewVis.FDQueryGrid.SQL.Text := FDQuery.SQL.Text;
+    ProdutoViewVis.FDQueryGrid.Active := True;
+    ProdutoViewVis.ShowModal;
+    Produto := ProdutoViewVis.Produto;
+    with PedidoDeVendaView do
+    begin
+      stgrdItens.Cells[GroupColum.IndexOf('ID'), ARow] := IntToStr(Produto.ID);
+      stgrdItens.Cells[GroupColum.IndexOf('Produto'), ARow] := Produto.Descricao;
+      stgrdItens.Cells[GroupColum.IndexOf('CustoUnitario'), ARow] := FormatFloat('0.00', Produto.Custo);
+      stgrdItens.Cells[GroupColum.IndexOf('ValorUnitario'), ARow] := FormatFloat('0.00', Produto.ValorVenda);
+      stgrdItens.Cells[GroupColum.IndexOf('Quantidade'), ARow] := '1.00';
+      stgrdItens.Cells[GroupColum.IndexOf('ValorTotal'), ARow] := FormatFloat('0.00', Produto.ValorVenda);
+
+    end;
+  end;
 end;
 
 procedure TPedidoDeVendaController.SetCliente(const Value: TClienteModel);
@@ -161,7 +215,7 @@ begin
       IDCliente := edtCliente.Tag;
       NomeCliente := edtCliente.Text;
 
-    end;
+  end;
 
   with ModelItens, PedidoDeVendaView do
   begin
@@ -177,12 +231,19 @@ begin
       ValorTotal := StrToFloat(stgrdItens.Cells[GroupColum.IndexOf('ValorTotal'),I]);
       Quantidade := StrToFloat(stgrdItens.Cells[GroupColum.IndexOf('Quantidade'),I]);
 
+      TPedidoDeVendaModel(Model).Itens.Add(ModelItens);
+
     end;
   end;
 
 
 end;
 
+
+procedure TPedidoDeVendaController.SetProduto(const Value: TProdutoModel);
+begin
+  FProduto := Value;
+end;
 
 procedure TPedidoDeVendaController.SetViewByModel;
 var

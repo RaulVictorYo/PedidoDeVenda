@@ -3,7 +3,7 @@ unit DAO.PedidoDeVenda;
 interface
 
 uses
-  DAO.Base, FireDAC.Comp.Client, Model.Base, Data.DB;
+  DAO.Base, FireDAC.Comp.Client, Model.Base, Data.DB, Model.PedidoDeVenda;
 
 type
 
@@ -12,18 +12,21 @@ type
     constructor Create; overload;
     destructor Destroy; overload;
     procedure SetParameters(var FDQuery: TFDQuery; const AModel: TBaseModel); override;
+    procedure SetParametersItens(var FDQuery: TFDQuery; const AModel: TPedidoDeVendaModel);
     function InsertText : string; override;
     function AtualizaGrid(AID: Integer): string; override;
     function FindText(AID: Integer) : string; override;
     function SetModelByDataSet(DataSet: TDataSet) : TBaseModel; override;
     function Search(AText: string): string; override;
+    procedure GravarItens(AModel : TPedidoDeVendaModel);
 
   end;
 
 implementation
 
 uses
-  System.SysUtils, Singleton.Connection, Model.Cliente;
+  System.SysUtils, Singleton.Connection, Model.Cliente,
+  Vcl.Forms;
 
 { TPedidoDeVendaDAO }
 
@@ -34,7 +37,7 @@ var
 begin
   try
     SB := TStringBuilder.Create;
-    SB.Append('SELECT * FROM Cliente WHERE ID = '+ IntToStr(AID));
+    SB.Append('SELECT * FROM PedidoDeVenda WHERE ID = '+ IntToStr(AID));
     Result := SB.ToString;
   finally
     FreeAndNil(SB);
@@ -58,11 +61,39 @@ var
 begin
   try
     SB := TStringBuilder.Create;
-    SB.Append('SELECT * FROM Cliente WHERE ID = '+ IntToStr(AID));
+    SB.Append('SELECT * FROM PedidoDeVenda WHERE ID = '+ IntToStr(AID));
     Result := SB.ToString;
   finally
     FreeAndNil(SB);
   end;
+end;
+
+procedure TPedidoDeVendaDAO.GravarItens;
+var
+  FDQuery: TFDQuery;
+  SB: TStringBuilder;
+begin
+  FDQuery := TFDQuery.Create(nil);
+  try
+    try
+      SB := TStringBuilder.Create;
+      SB.Append('UPDATE OR INSERT INTO PedidoDeVendaItens (');
+      SB.Append('ID, IDPEDIDO, IDProduto, NomeProduto, CustoUnitario, ValorUnitario, ValorTotal, Quantidade)');
+      SB.Append('VALUES (');
+      SB.Append(':ID, :IDPEDIDO, :IDProduto, :NomeProduto, :CustoUnitario, :ValorUnitario, :ValorTotal, :Quantidade)');
+      SB.Append('MATCHING (ID) RETURNING ID');
+      FDQuery.Connection := TConnectionSingleton.GetInstance.Connection;
+      FDQuery.Close;
+      FDQuery.SQL.Text := SB.ToString;
+      SetParameters(FDQuery, AModel);
+      FDQuery.Open;
+    except on E: Exception do
+      Application.MessageBox('Ocoreu um Erro durante o Processo de Gravação!','Erro');
+    end;
+  finally
+    FreeAndNil(FDQuery);
+  end;
+
 end;
 
 function TPedidoDeVendaDAO.InsertText: string;
@@ -71,12 +102,10 @@ var
 begin
   try
     SB := TStringBuilder.Create;
-    SB.Append('UPDATE OR INSERT INTO Cliente (');
-    SB.Append('ID, RAZAOSOCIAL, NOMEFANTASIA, CNPJ, LOGRADOURO, ');
-    SB.Append('NUMERO, BAIRRO, CIDADE, UF, CEP, EMAIL, TELEFONE )');
+    SB.Append('UPDATE OR INSERT INTO PedidoDeVenda (');
+    SB.Append('ID, IDCLIENTE, NOMECLIENTE)');
     SB.Append('VALUES (');
-    SB.Append(':ID, :RAZAOSOCIAL, :NOMEFANTASIA, :CNPJ, :LOGRADOURO, ');
-    SB.Append(':NUMERO, :BAIRRO, :CIDADE, :UF, :CEP, :EMAIL, :TELEFONE )');
+    SB.Append(':ID, :IDCLIENTE, :NOMECLIENTE)');
     SB.Append('MATCHING (ID) RETURNING ID');
     Result := SB.ToString;
   finally
@@ -92,7 +121,7 @@ var
 begin
   try
     SB := TStringBuilder.Create;
-    SB.Append('SELECT * FROM Cliente WHERE 1=1');
+    SB.Append('SELECT * FROM PedidoDeVenda WHERE 1=1');
     if TryStrToInt(AText,Value) then
       SB.Append('AND ID =' + AText)
     else
@@ -109,23 +138,15 @@ end;
 
 function TPedidoDeVendaDAO.SetModelByDataSet(DataSet: TDataSet) : TBaseModel;
 var
-  ModelUpdate: TClienteModel;
+  ModelUpdate: TPedidoDeVendaModel;
 begin
-  ModelUpdate := TClienteModel.Create;
+  ModelUpdate := TPedidoDeVendaModel.Create;
   with ModelUpdate , DataSet do
   begin
     Id := FieldByName('ID').AsInteger;
-    RazaoSocial := FieldByName('RazaoSocial').AsString;
-    NomeFantasia := FieldByName('NomeFantasia').AsString;
-    CNPJ := FieldByName('CNPJ').AsString;
-    Logradouro := FieldByName('Logradouro').AsString;
-    Numero := FieldByName('Numero').AsString;
-    Bairro := FieldByName('Bairro').AsString;
-    Cidade := FieldByName('Cidade').AsString;
-    CEP := FieldByName('CEP').AsString;
-    UF := FieldByName('UF').AsString;
-    Email := FieldByName('Email').AsString;
-    Telefone := FieldByName('Telefone').AsString;
+    IDCliente := FieldByName('IDCliente').AsString;
+    NomeCliente := FieldByName('NomeCliente').AsString;
+
   end;
   Result := ModelUpdate;
 end;
@@ -134,26 +155,46 @@ procedure TPedidoDeVendaDAO.SetParameters(var FDQuery: TFDQuery;
   const AModel: TBaseModel);
 begin
 
-  with FDQuery, TClienteModel(AModel) do
+  with FDQuery, TPedidoDeVendaModel(AModel) do
   begin
     if AModel.ID <> 0 then
       ParamByName('ID').AsInteger := AModel.ID
     else
       ParamByName('ID').AsInteger := GetNewID(AModel);
 
-    ParamByName('RazaoSocial').AsString := RazaoSocial;
-    ParamByName('NomeFantasia').AsString := NomeFantasia;
-    ParamByName('CNPJ').AsString := CNPJ;
-    ParamByName('Logradouro').AsString := Logradouro;
-    ParamByName('Numero').AsString := Numero;
-    ParamByName('Bairro').AsString := Bairro;
-    ParamByName('Cidade').AsString := Cidade;
-    ParamByName('CEP').AsString := CEP;
-    ParamByName('UF').AsString := UF;
-    ParamByName('Email').AsString := Email;
-    ParamByName('Telefone').AsString := Telefone;
+    ParamByName('IDCliente').AsString := IDCliente;
+    ParamByName('NomeCliente').AsString := NomeCliente;
+
   end;
 
+end;
+
+procedure TPedidoDeVendaDAO.SetParametersItens(var FDQuery: TFDQuery;
+  const AModel: TPedidoDeVendaModel);
+var
+  I : Integer;
+begin
+  for I := 0 to AModel.Itens.Count - 1 do
+  begin
+
+  with FDQuery, AModel do
+  begin
+    if AModel.ID <> 0 then
+      ParamByName('ID').AsInteger := AModel.ID
+    else
+      ParamByName('ID').AsInteger := GetNewID(AModel);
+
+    ParamByName('IDPEDIDO').AsString := ID;
+    ParamByName('IDProduto').AsString := IDProduto;
+    ParamByName('NomeProduto').AsString := NomeProduto;
+    ParamByName('CustoUnitario').AsString := NomeCliente;
+    ParamByName('ValorUnitario').AsString := IDCliente;
+    ParamByName('ValorTotal').AsString := NomeCliente;
+    ParamByName('Quantidade').AsString := NomeCliente;
+
+
+  end;
+  end;
 end;
 
 end.

@@ -92,13 +92,16 @@ var
 begin
   try
     SB := TStringBuilder.Create;
-    SB.Append('SELECT * FROM PRODUTO WHERE 1=1');
+    SB.Append('SELECT * FROM PRODUTO WHERE 1=1 ');
     if TryStrToInt(AText,Value) then
       SB.Append('AND ID =' + AText)
     else
     begin
+      if Trim(AText) <> '' then
+      begin
       SB.Append('AND DESCRICAO LIKE ''%');
       SB.Append(AText +'%''');
+      end;
     end;
 
     Result := SB.ToString;
