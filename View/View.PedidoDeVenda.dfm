@@ -1,9 +1,10 @@
 object PedidoDeVendaView: TPedidoDeVendaView
   Left = 0
   Top = 0
-  Caption = 'PedidoDeVendaView'
-  ClientHeight = 427
-  ClientWidth = 928
+  BorderStyle = bsDialog
+  Caption = 'Cadastro de Pedido de Venda'
+  ClientHeight = 437
+  ClientWidth = 938
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,6 +12,7 @@ object PedidoDeVendaView: TPedidoDeVendaView
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
   OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
@@ -18,10 +20,11 @@ object PedidoDeVendaView: TPedidoDeVendaView
   object pnl1: TPanel
     Left = 0
     Top = 0
-    Width = 928
+    Width = 938
     Height = 81
     Align = alTop
     TabOrder = 0
+    ExplicitWidth = 928
     object lblID: TLabel
       Left = 61
       Top = 8
@@ -54,6 +57,7 @@ object PedidoDeVendaView: TPedidoDeVendaView
       Top = 39
       Width = 593
       Height = 21
+      CharCase = ecUpperCase
       EditLabel.Width = 37
       EditLabel.Height = 13
       EditLabel.Caption = 'Cliente:'
@@ -65,14 +69,15 @@ object PedidoDeVendaView: TPedidoDeVendaView
   object pnl2: TPanel
     Left = 0
     Top = 81
-    Width = 928
+    Width = 938
     Height = 248
     Align = alTop
     TabOrder = 1
+    ExplicitWidth = 928
     object stgrdItens: TStringGrid
       Left = 1
       Top = 1
-      Width = 926
+      Width = 936
       Height = 246
       Align = alClient
       ColCount = 6
@@ -90,6 +95,7 @@ object PedidoDeVendaView: TPedidoDeVendaView
       OnExit = stgrdItensExit
       OnKeyDown = stgrdItensKeyDown
       OnKeyPress = stgrdItensKeyPress
+      ExplicitWidth = 926
       ColWidths = (
         64
         64
@@ -102,10 +108,11 @@ object PedidoDeVendaView: TPedidoDeVendaView
   object pnl3: TPanel
     Left = 0
     Top = 329
-    Width = 928
+    Width = 938
     Height = 96
     Align = alTop
     TabOrder = 2
+    ExplicitWidth = 928
     object lbl2: TLabel
       Left = 690
       Top = 16
@@ -224,6 +231,7 @@ object PedidoDeVendaView: TPedidoDeVendaView
       Height = 25
       Caption = 'Cancelar'
       TabOrder = 1
+      OnClick = btnCancelarClick
     end
   end
 end

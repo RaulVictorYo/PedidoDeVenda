@@ -3,7 +3,7 @@ unit Template;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
   FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB, Vcl.StdCtrls,
@@ -38,7 +38,10 @@ type
     pnlPesquisar: TPanel;
     imgPesquisa: TImage;
     lblPesquisar: TLabel;
+    lbl1: TLabel;
+    lblRecordCount: TLabel;
     procedure pnlIncluirMouseEnter(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -50,7 +53,19 @@ var
 
 implementation
 
+uses
+  Winapi.Windows;
+
 {$R *.dfm}
+
+procedure TTemplateVisView.DBGrid1DblClick(Sender: TObject);
+var
+  Shift: TShiftState;
+  LKey: Word;
+begin
+  LKey := VK_Return;
+  DBGrid1.OnKeyDown(Sender,LKey,Shift);
+end;
 
 procedure TTemplateVisView.pnlIncluirMouseEnter(Sender: TObject);
 begin

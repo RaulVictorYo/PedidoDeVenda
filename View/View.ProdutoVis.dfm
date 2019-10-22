@@ -1,6 +1,9 @@
 inherited ProdutoVisView: TProdutoVisView
   Caption = 'Produtos'
+  Position = poDesktopCenter
+  WindowState = wsMaximized
   OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlMenu: TPanel
@@ -10,7 +13,6 @@ inherited ProdutoVisView: TProdutoVisView
         OnClick = pnlIncluirClick
       end
       inherited lblProduto: TLabel
-        Height = 35
         OnClick = pnlIncluirClick
       end
     end
@@ -20,7 +22,6 @@ inherited ProdutoVisView: TProdutoVisView
         OnClick = pnlAlterarClick
       end
       inherited lblCliente: TLabel
-        Height = 35
         OnClick = pnlAlterarClick
       end
     end
@@ -30,7 +31,6 @@ inherited ProdutoVisView: TProdutoVisView
         OnClick = pnlDeletarClick
       end
       inherited lblPedidoDeVenda: TLabel
-        Height = 35
         OnClick = pnlDeletarClick
       end
     end
@@ -40,7 +40,6 @@ inherited ProdutoVisView: TProdutoVisView
         OnClick = pnlPesquisarClick
       end
       inherited lblPesquisar: TLabel
-        Height = 35
         OnClick = pnlPesquisarClick
       end
     end
@@ -53,7 +52,6 @@ inherited ProdutoVisView: TProdutoVisView
           OnClick = pnlLimparClick
         end
         inherited lblLimpar: TLabel
-          Height = 35
           OnClick = pnlLimparClick
         end
       end
@@ -62,6 +60,8 @@ inherited ProdutoVisView: TProdutoVisView
         Top = 34
         Width = 281
         Height = 21
+        BevelOuter = bvNone
+        CharCase = ecUpperCase
         EditLabel.Width = 70
         EditLabel.Height = 15
         EditLabel.Caption = 'Descri'#231#227'o:'
@@ -75,12 +75,15 @@ inherited ProdutoVisView: TProdutoVisView
         EditLabel.ParentFont = False
         LabelPosition = lpLeft
         TabOrder = 1
+        OnKeyDown = edtIDKeyDown
       end
       object edtID: TLabeledEdit
         Left = 157
         Top = 34
         Width = 121
         Height = 21
+        BevelOuter = bvNone
+        CharCase = ecUpperCase
         EditLabel.Width = 21
         EditLabel.Height = 15
         EditLabel.Caption = 'ID:'
@@ -94,7 +97,12 @@ inherited ProdutoVisView: TProdutoVisView
         EditLabel.ParentFont = False
         LabelPosition = lpLeft
         TabOrder = 2
+        OnKeyDown = edtIDKeyDown
       end
+    end
+    inherited DBGrid1: TDBGrid
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+      OnKeyDown = DBGrid1KeyDown
     end
   end
 end

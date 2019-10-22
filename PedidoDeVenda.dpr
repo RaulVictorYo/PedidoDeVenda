@@ -3,9 +3,7 @@ program PedidoDeVenda;
 uses
   Vcl.Forms,
   View.Menu in 'View\View.Menu.pas' {Form1},
-  View.ProdutoVis1 in 'View\View.ProdutoVis1.pas' {ProdutoViewVis},
   View.Produto in 'View\View.Produto.pas' {ProdutoView},
-  Controller.ProdutoVis in 'Controller\Controller.ProdutoVis.pas',
   Util.Enum in 'Util\Util.Enum.pas',
   Controller.Menu in 'Controller\Controller.Menu.pas',
   Model.Produto in 'Model\Model.Produto.pas',

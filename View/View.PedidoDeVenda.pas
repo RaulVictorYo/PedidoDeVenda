@@ -37,6 +37,8 @@ type
     procedure stgrdItensKeyPress(Sender: TObject; var Key: Char);
     procedure btnGravarClick(Sender: TObject);
     procedure stgrdItensExit(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure Upper(var Key: Char);
   private
     { Private declarations }
   public
@@ -59,10 +61,18 @@ var
 
 {$R *.dfm}
 
+procedure TPedidoDeVendaView.btnCancelarClick(Sender: TObject);
+begin
+  Close;
+end;
+
 procedure TPedidoDeVendaView.btnGravarClick(Sender: TObject);
 begin
-  PedidoVendaController.Gravar;
-  Close;
+  if edtCliente.Tag > 0 then
+  begin
+    PedidoVendaController.Gravar;
+    Close;
+  end;
 end;
 
 procedure TPedidoDeVendaView.edtClienteKeyDown(Sender: TObject; var Key: Word;
@@ -127,11 +137,15 @@ procedure TPedidoDeVendaView.stgrdItensExit(Sender: TObject);
 var
   I: Integer;
 begin
+
   lblValorTotal.Caption := FormatFloat('0.00', 0);
   for I := 1 to stgrdItens.RowCount - 1 do
   begin
-    lblValorTotal.Caption := FormatFloat('0.00', StrToFloat(lblValorTotal.Caption) + StrToFloat(stgrdItens.Cells[GroupColum.IndexOf('ValorTotal'),I]) );
-    lblItens.Caption := IntToStr(stgrdItens.RowCount - 1);
+    if Trim(stgrdItens.Cells[GroupColum.IndexOf('ID'),I]) <> '' then
+    begin
+      lblValorTotal.Caption := FormatFloat('0.00', StrToFloatDef(lblValorTotal.Caption, 0.00) + StrToFloatDef(stgrdItens.Cells[GroupColum.IndexOf('ValorTotal'),I], 0.00) );
+      lblItens.Caption := IntToStr(stgrdItens.RowCount - 1);
+    end;
   end;
 end;
 
@@ -161,15 +175,21 @@ begin
     begin
       if (stgrdItens.Col = GroupColum.IndexOf('Quantidade')) or (stgrdItens.Col = GroupColum.IndexOf('ValorUnitario')) then
       begin
-        stgrdItens.Cells[GroupColum.IndexOf('ValorUnitario'),stgrdItens.Row] := FormatFloat('0.00', StrToFloat(stgrdItens.Cells[GroupColum.IndexOf('ValorUnitario'),stgrdItens.Row]));
-        stgrdItens.Cells[GroupColum.IndexOf('Quantidade'),stgrdItens.Row] := FormatFloat('0.00', StrToFloat(stgrdItens.Cells[GroupColum.IndexOf('Quantidade'),stgrdItens.Row]));
-        stgrdItens.Cells[GroupColum.IndexOf('ValorTotal'),stgrdItens.Row] := FormatFloat('0.00', StrToFloat(stgrdItens.Cells[GroupColum.IndexOf('Quantidade'),stgrdItens.Row]) * StrToFloat(stgrdItens.Cells[GroupColum.IndexOf('ValorUnitario'),stgrdItens.Row]))
+        if Trim(stgrdItens.Cells[GroupColum.IndexOf('ID'),stgrdItens.Row]) <> '' then
+        begin
+          stgrdItens.Cells[GroupColum.IndexOf('ValorUnitario'),stgrdItens.Row] := FormatFloat('0.00', StrToFloatDef(stgrdItens.Cells[GroupColum.IndexOf('ValorUnitario'),stgrdItens.Row], 0.00));
+          stgrdItens.Cells[GroupColum.IndexOf('Quantidade'),stgrdItens.Row] := FormatFloat('0.00', StrToFloatDef(stgrdItens.Cells[GroupColum.IndexOf('Quantidade'),stgrdItens.Row], 0.00));
+          stgrdItens.Cells[GroupColum.IndexOf('ValorTotal'),stgrdItens.Row] := FormatFloat('0.00', StrToFloatDef(stgrdItens.Cells[GroupColum.IndexOf('Quantidade'),stgrdItens.Row], 0.00) * StrToFloatDef(stgrdItens.Cells[GroupColum.IndexOf('ValorUnitario'),stgrdItens.Row], 0.00))
+        end;
       end;
       lblValorTotal.Caption := FormatFloat('0.00', 0);
       for I := 1 to stgrdItens.RowCount - 1 do
       begin
-        lblValorTotal.Caption := FormatFloat('0.00', StrToFloat(lblValorTotal.Caption) + StrToFloat(stgrdItens.Cells[GroupColum.IndexOf('ValorTotal'),I]) );
-        lblItens.Caption := IntToStr(stgrdItens.RowCount - 1);
+        if Trim(stgrdItens.Cells[GroupColum.IndexOf('ID'),I]) <> '' then
+        begin
+          lblValorTotal.Caption := FormatFloat('0.00', StrToFloatDef(lblValorTotal.Caption, 0.00) + StrToFloatDef(stgrdItens.Cells[GroupColum.IndexOf('ValorTotal'),I], 0.00) );
+          lblItens.Caption := IntToStr(stgrdItens.RowCount - 1);
+        end;
       end;
     end;
 
@@ -180,7 +200,7 @@ begin
         lblValorTotal.Caption := FormatFloat('0.00', 0);
         for I := 1 to stgrdItens.RowCount - 1 do
         begin
-          lblValorTotal.Caption := FormatFloat('0.00', StrToFloat(lblValorTotal.Caption) + StrToFloat(stgrdItens.Cells[GroupColum.IndexOf('ValorTotal'),I]) );
+          lblValorTotal.Caption := FormatFloat('0.00', StrToFloatDef(lblValorTotal.Caption, 0.00) + StrToFloatDef(stgrdItens.Cells[GroupColum.IndexOf('ValorTotal'),I], 0.00) );
           lblItens.Caption := IntToStr(stgrdItens.RowCount - 1);
         end;
         stgrdItens.RowCount := stgrdItens.RowCount + 1;
@@ -213,8 +233,30 @@ begin
 
 end;
 
+procedure TPedidoDeVendaView.Upper(var Key: Char);
+begin
+  if CharInSet(Key, ['a'..'z']) then
+    Key := UpCase(Key);
+  if Key = 'ç' then Key := 'Ç';
+  if Key = 'ã' then Key := 'Ã';
+  if Key = 'õ' then Key := 'Õ';
+  if Key = 'á' then Key := 'Á';
+  if Key = 'é' then Key := 'É';
+  if Key = 'í' then Key := 'Í';
+  if Key = 'ó' then Key := 'Ó';
+  if Key = 'ú' then Key := 'Ú';
+end;
+
 procedure TPedidoDeVendaView.stgrdItensKeyPress(Sender: TObject; var Key: Char);
 begin
+
+    Upper(Key);
+
+   if CharInSet(Key, ['.', ',']) then
+    if Pos(FormatSettings.DecimalSeparator, TEdit(Sender).Text) > 0 then
+      Key := #0
+    else
+      Key := FormatSettings.DecimalSeparator;
 
 
   if (Key <> Char(VK_RETURN)) and (Key <> Char(VK_TAB)) then
@@ -226,7 +268,6 @@ begin
 
      end;
   end;
-
 
   if stgrdItens.Col = GroupColum.IndexOf('ValorTotal') then
   begin

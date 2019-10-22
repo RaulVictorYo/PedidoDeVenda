@@ -2684,11 +2684,41 @@ object TemplateVisView: TTemplateVisView
       Height = 41
       Pen.Style = psClear
     end
+    object lbl1: TLabel
+      Left = 16
+      Top = 448
+      Width = 120
+      Height = 18
+      Anchors = [akLeft, akRight, akBottom]
+      Caption = 'Num. Registros:'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWhite
+      Font.Height = -15
+      Font.Name = 'Consolas'
+      Font.Style = [fsBold]
+      ParentFont = False
+      Layout = tlCenter
+    end
+    object lblRecordCount: TLabel
+      Left = 141
+      Top = 447
+      Width = 9
+      Height = 19
+      Anchors = [akLeft, akRight, akBottom]
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWhite
+      Font.Height = -16
+      Font.Name = 'Consolas'
+      Font.Style = [fsBold]
+      ParentFont = False
+      Layout = tlCenter
+    end
     object pnlIncluir: TPanel
       Left = 0
       Top = 82
       Width = 201
       Height = 41
+      Cursor = crHandPoint
       Anchors = [akLeft, akTop, akRight]
       BevelOuter = bvNone
       TabOrder = 0
@@ -2699,6 +2729,7 @@ object TemplateVisView: TTemplateVisView
         Top = 3
         Width = 33
         Height = 35
+        Cursor = crHandPoint
         Margins.Left = 16
         Align = alLeft
         Anchors = [akLeft, akTop, akRight]
@@ -2737,6 +2768,7 @@ object TemplateVisView: TTemplateVisView
         Top = 3
         Width = 63
         Height = 35
+        Cursor = crHandPoint
         Margins.Left = 5
         Align = alLeft
         Alignment = taCenter
@@ -2756,6 +2788,7 @@ object TemplateVisView: TTemplateVisView
       Top = 117
       Width = 201
       Height = 41
+      Cursor = crHandPoint
       Anchors = [akLeft, akTop, akRight]
       BevelOuter = bvNone
       TabOrder = 1
@@ -2766,6 +2799,7 @@ object TemplateVisView: TTemplateVisView
         Top = 3
         Width = 33
         Height = 35
+        Cursor = crHandPoint
         Margins.Left = 16
         Align = alLeft
         Anchors = [akLeft, akTop, akRight]
@@ -2795,6 +2829,7 @@ object TemplateVisView: TTemplateVisView
         Top = 3
         Width = 63
         Height = 35
+        Cursor = crHandPoint
         Margins.Left = 5
         Align = alLeft
         Alignment = taCenter
@@ -2814,6 +2849,7 @@ object TemplateVisView: TTemplateVisView
       Top = 151
       Width = 201
       Height = 41
+      Cursor = crHandPoint
       Anchors = [akLeft, akTop, akRight]
       BevelOuter = bvNone
       TabOrder = 2
@@ -2824,6 +2860,7 @@ object TemplateVisView: TTemplateVisView
         Top = 3
         Width = 33
         Height = 35
+        Cursor = crHandPoint
         Margins.Left = 16
         Align = alLeft
         Anchors = [akLeft, akTop, akRight]
@@ -2861,6 +2898,7 @@ object TemplateVisView: TTemplateVisView
         Top = 3
         Width = 63
         Height = 35
+        Cursor = crHandPoint
         Margins.Left = 5
         Align = alLeft
         Alignment = taCenter
@@ -2880,6 +2918,7 @@ object TemplateVisView: TTemplateVisView
       Top = 188
       Width = 201
       Height = 41
+      Cursor = crHandPoint
       Anchors = [akLeft, akTop, akRight]
       BevelOuter = bvNone
       TabOrder = 3
@@ -2890,6 +2929,7 @@ object TemplateVisView: TTemplateVisView
         Top = 3
         Width = 33
         Height = 35
+        Cursor = crHandPoint
         Margins.Left = 16
         Align = alLeft
         Anchors = [akLeft, akTop, akRight]
@@ -2927,6 +2967,7 @@ object TemplateVisView: TTemplateVisView
         Top = 3
         Width = 81
         Height = 35
+        Cursor = crHandPoint
         Margins.Left = 5
         Align = alLeft
         Alignment = taCenter
@@ -6514,6 +6555,7 @@ object TemplateVisView: TTemplateVisView
         Top = 34
         Width = 121
         Height = 41
+        Cursor = crHandPoint
         Anchors = [akLeft, akBottom]
         BevelOuter = bvNone
         TabOrder = 0
@@ -6523,6 +6565,7 @@ object TemplateVisView: TTemplateVisView
           Top = 3
           Width = 39
           Height = 35
+          Cursor = crHandPoint
           Margins.Left = 16
           Align = alLeft
           Anchors = [akLeft, akTop, akRight]
@@ -6569,6 +6612,7 @@ object TemplateVisView: TTemplateVisView
           Top = 3
           Width = 54
           Height = 35
+          Cursor = crHandPoint
           Margins.Left = 5
           Align = alLeft
           Alignment = taCenter
@@ -6580,7 +6624,6 @@ object TemplateVisView: TTemplateVisView
           Font.Style = []
           ParentFont = False
           Layout = tlCenter
-          ExplicitLeft = 61
           ExplicitHeight = 19
         end
       end
@@ -6598,6 +6641,7 @@ object TemplateVisView: TTemplateVisView
       TitleFont.Height = -11
       TitleFont.Name = 'Tahoma'
       TitleFont.Style = []
+      OnDblClick = DBGrid1DblClick
       Columns = <
         item
           Expanded = False

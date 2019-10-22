@@ -1,9 +1,10 @@
 object ClienteView: TClienteView
   Left = 0
   Top = 0
+  BorderStyle = bsDialog
   Caption = 'Cadastro de Cliente'
-  ClientHeight = 387
-  ClientWidth = 442
+  ClientHeight = 397
+  ClientWidth = 452
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,6 +12,7 @@ object ClienteView: TClienteView
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -62,15 +64,24 @@ object ClienteView: TClienteView
     Height = 13
     Caption = 'Telefone:'
   end
+  object lbl5: TLabel
+    Left = 73
+    Top = 221
+    Width = 17
+    Height = 13
+    Caption = 'UF:'
+  end
   object edtRazaoSocial: TLabeledEdit
     Left = 96
     Top = 32
     Width = 313
     Height = 21
+    CharCase = ecUpperCase
     EditLabel.Width = 67
     EditLabel.Height = 13
     EditLabel.Caption = 'Raz'#227'o Social: '
     LabelPosition = lpLeft
+    MaxLength = 100
     TabOrder = 0
   end
   object edtNomeFantasia: TLabeledEdit
@@ -78,10 +89,12 @@ object ClienteView: TClienteView
     Top = 59
     Width = 313
     Height = 21
+    CharCase = ecUpperCase
     EditLabel.Width = 75
     EditLabel.Height = 13
     EditLabel.Caption = 'Nome Fantasia:'
     LabelPosition = lpLeft
+    MaxLength = 100
     TabOrder = 1
   end
   object edtLogradouro: TLabeledEdit
@@ -89,54 +102,51 @@ object ClienteView: TClienteView
     Top = 113
     Width = 201
     Height = 21
+    CharCase = ecUpperCase
     EditLabel.Width = 59
     EditLabel.Height = 13
     EditLabel.Caption = 'Logradouro:'
     LabelPosition = lpLeft
-    TabOrder = 2
+    MaxLength = 100
+    TabOrder = 3
   end
   object edtNumero: TLabeledEdit
     Left = 96
     Top = 137
     Width = 57
     Height = 21
+    CharCase = ecUpperCase
     EditLabel.Width = 41
     EditLabel.Height = 13
     EditLabel.Caption = 'Numero:'
     LabelPosition = lpLeft
-    TabOrder = 3
+    MaxLength = 10
+    TabOrder = 4
   end
   object edtBairro: TLabeledEdit
     Left = 96
     Top = 164
     Width = 201
     Height = 21
+    CharCase = ecUpperCase
     EditLabel.Width = 32
     EditLabel.Height = 13
     EditLabel.Caption = 'Bairro:'
     LabelPosition = lpLeft
-    TabOrder = 4
+    MaxLength = 100
+    TabOrder = 5
   end
   object edtCidade: TLabeledEdit
     Left = 96
     Top = 191
     Width = 201
     Height = 21
+    CharCase = ecUpperCase
     EditLabel.Width = 37
     EditLabel.Height = 13
     EditLabel.Caption = 'Cidade:'
     LabelPosition = lpLeft
-    TabOrder = 5
-  end
-  object edtUF: TLabeledEdit
-    Left = 96
-    Top = 218
-    Width = 33
-    Height = 21
-    EditLabel.Width = 17
-    EditLabel.Height = 13
-    EditLabel.Caption = 'UF:'
-    LabelPosition = lpLeft
+    MaxLength = 100
     TabOrder = 6
   end
   object edtEmail: TLabeledEdit
@@ -144,11 +154,13 @@ object ClienteView: TClienteView
     Top = 272
     Width = 201
     Height = 21
+    CharCase = ecUpperCase
     EditLabel.Width = 28
     EditLabel.Height = 13
     EditLabel.Caption = 'Email:'
     LabelPosition = lpLeft
-    TabOrder = 7
+    MaxLength = 100
+    TabOrder = 9
   end
   object btnGravar: TButton
     Left = 96
@@ -156,7 +168,7 @@ object ClienteView: TClienteView
     Width = 75
     Height = 25
     Caption = 'Gravar'
-    TabOrder = 8
+    TabOrder = 11
     OnClick = btnGravarClick
   end
   object btnCancelar: TButton
@@ -165,7 +177,7 @@ object ClienteView: TClienteView
     Width = 75
     Height = 25
     Caption = 'Cancelar'
-    TabOrder = 9
+    TabOrder = 12
     OnClick = btnCancelarClick
   end
   object mskCnpj: TMaskEdit
@@ -173,9 +185,10 @@ object ClienteView: TClienteView
     Top = 86
     Width = 200
     Height = 21
+    CharCase = ecUpperCase
     EditMask = '00.000.000/0000-00;0'
     MaxLength = 18
-    TabOrder = 10
+    TabOrder = 2
     Text = ''
   end
   object mskCep: TMaskEdit
@@ -183,20 +196,60 @@ object ClienteView: TClienteView
     Top = 245
     Width = 120
     Height = 21
+    CharCase = ecUpperCase
     EditMask = '00000-000;0;_'
     MaxLength = 9
-    TabOrder = 11
+    TabOrder = 8
     Text = ''
   end
   object mskTelefone: TMaskEdit
     Left = 96
     Top = 299
-    Width = 135
+    Width = 123
     Height = 21
-    EditMask = '!\(99\)0000-0000;1;_'
+    CharCase = ecUpperCase
+    EditMask = '(00)0000-0000;0;_'
     MaxLength = 13
-    TabOrder = 12
-    Text = '(  )    -    '
+    TabOrder = 10
+    Text = ''
     OnKeyPress = mskTelefoneKeyPress
+  end
+  object cbbUF: TComboBox
+    Left = 96
+    Top = 218
+    Width = 41
+    Height = 22
+    Style = csOwnerDrawFixed
+    ItemIndex = 0
+    TabOrder = 7
+    Text = 'AC'
+    Items.Strings = (
+      'AC'
+      'AL'
+      'AM'
+      'AP'
+      'BA'
+      'CE'
+      'DF'
+      'ES'
+      'GO'
+      'MA'
+      'MG'
+      'MS'
+      'MT'
+      'PA'
+      'PB'
+      'PE'
+      'PI'
+      'PR'
+      'RJ'
+      'RN'
+      'RO'
+      'RR'
+      'RS'
+      'SC'
+      'SE'
+      'SP'
+      'TO')
   end
 end

@@ -14,7 +14,6 @@ type
     edtNumero: TLabeledEdit;
     edtBairro: TLabeledEdit;
     edtCidade: TLabeledEdit;
-    edtUF: TLabeledEdit;
     edtEmail: TLabeledEdit;
     btnGravar: TButton;
     btnCancelar: TButton;
@@ -26,6 +25,8 @@ type
     mskTelefone: TMaskEdit;
     lbl3: TLabel;
     lbl4: TLabel;
+    cbbUF: TComboBox;
+    lbl5: TLabel;
     procedure btnGravarClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -74,15 +75,16 @@ end;
 
 procedure TClienteView.mskTelefoneKeyPress(Sender: TObject; var Key: Char);
 begin
-  if Length(Trim(mskTelefone.Text)) >= 10 then
-  begin
-    if (Key in ['0'..'9']) then
+    if Length(Trim(mskTelefone.Text)) >= 10 then
     begin
-    mskTelefone.EditMask := '(99)00000-0000;0;_'
-    end;
-  end
-  else
-    mskTelefone.EditMask := '(99)0000-0000;0;_';
+      if (Key in ['0'..'9']) then
+      begin
+      mskTelefone.EditMask := '(00)00000-0000;0;_'
+      end;
+    end
+    else
+      mskTelefone.EditMask := '(00)0000-0000;0;_';
+
 end;
 
 function TClienteView.ValidarCampos: Boolean;

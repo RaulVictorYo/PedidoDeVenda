@@ -1,9 +1,10 @@
 object ProdutoView: TProdutoView
   Left = 0
   Top = 0
-  Caption = 'ProdutoView'
-  ClientHeight = 325
-  ClientWidth = 401
+  BorderStyle = bsDialog
+  Caption = 'Cadastro de Produto'
+  ClientHeight = 335
+  ClientWidth = 411
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,6 +12,7 @@ object ProdutoView: TProdutoView
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
   OnClose = FormClose
   OnCreate = FormCreate
   PixelsPerInch = 96
@@ -47,9 +49,11 @@ object ProdutoView: TProdutoView
     Top = 88
     Width = 121
     Height = 21
+    CharCase = ecUpperCase
     EditLabel.Width = 50
     EditLabel.Height = 13
     EditLabel.Caption = 'Descri'#231#227'o:'
+    MaxLength = 100
     TabOrder = 0
   end
   object EdtCusto: TLabeledEdit
@@ -61,6 +65,8 @@ object ProdutoView: TProdutoView
     EditLabel.Height = 13
     EditLabel.Caption = 'Custo:'
     TabOrder = 1
+    OnExit = EdtCustoExit
+    OnKeyPress = EdtCustoKeyPress
   end
   object EdtValorVenda: TLabeledEdit
     Left = 120
@@ -71,6 +77,8 @@ object ProdutoView: TProdutoView
     EditLabel.Height = 13
     EditLabel.Caption = 'Valor de Venda:'
     TabOrder = 2
+    OnExit = EdtValorVendaExit
+    OnKeyPress = EdtCustoKeyPress
   end
   object btnGravar: TButton
     Left = 88
@@ -88,5 +96,6 @@ object ProdutoView: TProdutoView
     Height = 25
     Caption = 'Cancelar'
     TabOrder = 4
+    OnClick = btnCancelarClick
   end
 end

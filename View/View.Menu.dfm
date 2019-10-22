@@ -1,7 +1,7 @@
 object MenuView: TMenuView
   Left = 0
   Top = 0
-  Caption = 'MenuView'
+  Caption = 'Menu'
   ClientHeight = 493
   ClientWidth = 889
   Color = clWindow
@@ -11,6 +11,8 @@ object MenuView: TMenuView
   Font.Name = 'Tahoma'
   Font.Style = [fsBold]
   OldCreateOrder = False
+  Position = poDesktopCenter
+  WindowState = wsMaximized
   PixelsPerInch = 96
   TextHeight = 13
   object pnlMenu: TPanel
@@ -2688,6 +2690,7 @@ object MenuView: TMenuView
       Top = 448
       Width = 70
       Height = 15
+      Anchors = [akLeft, akRight, akBottom]
       Caption = 'Vers'#227'o 1.0'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
@@ -2702,6 +2705,7 @@ object MenuView: TMenuView
       Top = 469
       Width = 126
       Height = 13
+      Anchors = [akLeft, akRight, akBottom]
       Caption = 'Create by Raul Victor'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
@@ -2716,6 +2720,7 @@ object MenuView: TMenuView
       Top = 81
       Width = 201
       Height = 41
+      Cursor = crHandPoint
       Anchors = [akLeft, akTop, akRight]
       BevelOuter = bvNone
       TabOrder = 0
@@ -2727,6 +2732,7 @@ object MenuView: TMenuView
         Top = 3
         Width = 33
         Height = 35
+        Cursor = crHandPoint
         Margins.Left = 16
         Align = alLeft
         Anchors = [akLeft, akTop, akRight]
@@ -2750,6 +2756,7 @@ object MenuView: TMenuView
         Top = 3
         Width = 72
         Height = 35
+        Cursor = crHandPoint
         Margins.Left = 5
         Align = alLeft
         Alignment = taCenter
@@ -2770,6 +2777,7 @@ object MenuView: TMenuView
       Top = 116
       Width = 201
       Height = 41
+      Cursor = crHandPoint
       Anchors = [akLeft, akTop, akRight]
       BevelOuter = bvNone
       TabOrder = 1
@@ -2781,6 +2789,7 @@ object MenuView: TMenuView
         Top = 3
         Width = 33
         Height = 35
+        Cursor = crHandPoint
         Margins.Left = 16
         Align = alLeft
         Anchors = [akLeft, akTop, akRight]
@@ -2810,6 +2819,7 @@ object MenuView: TMenuView
         Top = 3
         Width = 72
         Height = 35
+        Cursor = crHandPoint
         Margins.Left = 5
         Align = alLeft
         Alignment = taCenter
@@ -2830,6 +2840,7 @@ object MenuView: TMenuView
       Top = 152
       Width = 201
       Height = 41
+      Cursor = crHandPoint
       Anchors = [akLeft, akTop, akRight]
       BevelOuter = bvNone
       TabOrder = 2
@@ -2841,6 +2852,7 @@ object MenuView: TMenuView
         Top = 3
         Width = 33
         Height = 35
+        Cursor = crHandPoint
         Margins.Left = 16
         Align = alLeft
         Anchors = [akLeft, akTop, akRight]
@@ -2875,6 +2887,7 @@ object MenuView: TMenuView
         Top = 3
         Width = 135
         Height = 35
+        Cursor = crHandPoint
         Margins.Left = 5
         Align = alLeft
         Alignment = taCenter

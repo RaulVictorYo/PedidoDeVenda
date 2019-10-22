@@ -1,5 +1,6 @@
 inherited ClienteVisView: TClienteVisView
   Caption = 'Clientes'
+  Position = poDesktopCenter
   WindowState = wsMaximized
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -13,7 +14,6 @@ inherited ClienteVisView: TClienteVisView
         OnClick = pnlIncluirClick
       end
       inherited lblProduto: TLabel
-        Height = 35
         OnClick = pnlIncluirClick
       end
     end
@@ -23,7 +23,6 @@ inherited ClienteVisView: TClienteVisView
         OnClick = pnlAlterarClick
       end
       inherited lblCliente: TLabel
-        Height = 35
         OnClick = pnlAlterarClick
       end
     end
@@ -33,7 +32,6 @@ inherited ClienteVisView: TClienteVisView
         OnClick = pnlDeletarClick
       end
       inherited lblPedidoDeVenda: TLabel
-        Height = 35
         OnClick = pnlDeletarClick
       end
     end
@@ -43,7 +41,6 @@ inherited ClienteVisView: TClienteVisView
         OnClick = pnlPesquisarClick
       end
       inherited lblPesquisar: TLabel
-        Height = 35
         OnClick = pnlPesquisarClick
       end
     end
@@ -60,7 +57,6 @@ inherited ClienteVisView: TClienteVisView
         end
         inherited lblLimpar: TLabel
           Left = 57
-          Height = 35
           OnClick = pnlLimparClick
           ExplicitLeft = 57
         end
@@ -70,6 +66,8 @@ inherited ClienteVisView: TClienteVisView
         Top = 34
         Width = 121
         Height = 21
+        BevelOuter = bvNone
+        CharCase = ecUpperCase
         EditLabel.Width = 21
         EditLabel.Height = 15
         EditLabel.Caption = 'ID:'
@@ -83,12 +81,14 @@ inherited ClienteVisView: TClienteVisView
         EditLabel.ParentFont = False
         LabelPosition = lpLeft
         TabOrder = 1
+        OnKeyDown = edtIDKeyDown
       end
       object edtRazaoSocial: TLabeledEdit
         Left = 384
         Top = 34
         Width = 281
         Height = 21
+        CharCase = ecUpperCase
         EditLabel.Width = 91
         EditLabel.Height = 15
         EditLabel.Caption = 'Raz'#227'o Social:'
@@ -102,9 +102,12 @@ inherited ClienteVisView: TClienteVisView
         EditLabel.ParentFont = False
         LabelPosition = lpLeft
         TabOrder = 2
+        OnKeyDown = edtIDKeyDown
       end
     end
     inherited DBGrid1: TDBGrid
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+      OnKeyDown = DBGrid1KeyDown
       Columns = <
         item
           Expanded = False

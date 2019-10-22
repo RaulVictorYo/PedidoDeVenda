@@ -32,7 +32,7 @@ implementation
 
 uses
   Vcl.Forms, System.SysUtils, View.ProdutoVis, View.ClienteVis, Model.Cliente,
-  Data.DB;
+  Data.DB, Vcl.Controls;
 
 { TClienteController }
 
@@ -44,6 +44,8 @@ begin
 end;
 
 procedure TClienteController.CreateView(AStatus: TAction; AModal: Boolean);
+var
+  I: Integer;
 begin
 
   case AStatus of
@@ -67,7 +69,28 @@ begin
       else
         ClienteView.Show;
     end;
-    stShow: ;
+    stShow:
+    begin
+      Application.CreateForm(TClienteView, ClienteView);
+      Model := DAO.FindByID(ClienteVisView.FDQueryGrid.FieldByName('ID').AsInteger);
+      ClienteView.lbl1.Visible := True;
+      ClienteView.lblID.Visible := True;
+      ClienteView.btnGravar.Visible := False;
+      ClienteView.btnCancelar.Visible := False;
+      SetViewByModel;
+      for I := 0 to ClienteView.ComponentCount - 1 do
+      begin
+        if ClienteView.Components[I] is TWinControl then
+        begin
+           (ClienteView.Components[I] as TWinControl).Enabled := False;
+        end;
+      end;
+      if AModal then
+        ClienteView.ShowModal
+      else
+        ClienteView.Show;
+
+    end;
   end;
 
 end;
@@ -117,7 +140,7 @@ begin
     Bairro := edtBairro.Text;
     Cidade := edtCidade.Text;
     CEP := mskCEP.Text;
-    UF := edtUF.Text;
+    UF := cbbUF.Text;
     Email := edtEmail.Text;
     Telefone := mskTelefone.Text;
   end;
@@ -136,8 +159,12 @@ begin
     edtBairro.Text := Bairro;
     edtCidade.Text := Cidade;
     mskCEP.Text := CEP;
-    edtUF.Text := UF;
+    cbbUF.ItemIndex := cbbUF.Items.IndexOf(UF);
     edtEmail.Text := Email;
+    if Length(Telefone) > 10 then
+    begin
+      mskTelefone.EditMask := '(00)00000-0000;0;_'
+    end;
     mskTelefone.Text := Telefone;
   end;
 

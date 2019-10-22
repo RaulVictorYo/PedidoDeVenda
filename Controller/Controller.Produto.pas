@@ -3,7 +3,7 @@ unit Controller.Produto;
 interface
 
 uses
-  Util.Enum, DAO.Produto, Model.Produto, View.Produto, Controller.Base,
+  Util.Enum, DAO.Produto, Model.Produto, View.Produto, Controller.Base, Winapi.Windows,
   Model.Base;
 
 type
@@ -31,7 +31,7 @@ end;
 implementation
 
 uses
-  Vcl.Forms, System.SysUtils, View.ProdutoVis;
+  Vcl.Forms, System.SysUtils, View.ProdutoVis, Vcl.Controls;
 
 { TProdutoController }
 
@@ -43,6 +43,8 @@ begin
 end;
 
 procedure TProdutoController.CreateView(AStatus: TAction; AModal: Boolean);
+var
+  I: integer;
 begin
 
   case AStatus of
@@ -66,7 +68,28 @@ begin
       else
         ProdutoView.Show;
     end;
-    stShow: ;
+    stShow:
+    begin
+      Application.CreateForm(TProdutoView, ProdutoView);
+      Model := DAO.FindByID(ProdutoVisView.FDQueryGrid.FieldByName('ID').AsInteger);
+      ProdutoView.lbl1.Visible := True;
+      ProdutoView.lblID.Visible := True;
+      ProdutoView.btnGravar.Visible := False;
+      ProdutoView.btnCancelar.Visible := False;
+      SetViewByModel;
+      for I := 0 to ProdutoView.ComponentCount - 1 do
+      begin
+        if ProdutoView.Components[I] is TWinControl then
+        begin
+           (ProdutoView.Components[I] as TWinControl).Enabled := False;
+        end;
+      end;
+      if AModal then
+        ProdutoView.ShowModal
+      else
+        ProdutoView.Show;
+
+    end;
   end;
 
 end;
