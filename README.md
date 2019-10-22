@@ -1,5 +1,10 @@
 # PedidoDeVenda
 
+Tecnologias:
+
+ - Delphi
+ - Firebird
+
 Modulos
 
  - Cliente
