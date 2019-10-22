@@ -4,17 +4,30 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.Imaging.jpeg, Vcl.Imaging.pngimage;
 
 type
   TMenuView = class(TForm)
-    Panel1: TPanel;
-    btnPedidoDeVenda: TButton;
-    btnProduto: TButton;
-    btnCliente: TButton;
-    procedure btnProdutoClick(Sender: TObject);
-    procedure btnClienteClick(Sender: TObject);
-    procedure btnPedidoDeVendaClick(Sender: TObject);
+    pnlMenu: TPanel;
+    imgBackGround: TImage;
+    lblModulos: TLabel;
+    pnlProduto: TPanel;
+    imgProduto: TImage;
+    lblProduto: TLabel;
+    pnlCliente: TPanel;
+    imgCliente: TImage;
+    lblCliente: TLabel;
+    pnlPedidoDeVenda: TPanel;
+    imgPedidoDeVenda: TImage;
+    lblPedidoDeVenda: TLabel;
+    shp1: TShape;
+    lbl1: TLabel;
+    lbl2: TLabel;
+    procedure pnlProdutoMouseEnter(Sender: TObject);
+    procedure pnlProdutoClick(Sender: TObject);
+    procedure pnlClienteClick(Sender: TObject);
+    procedure pnlPedidoDeVendaClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -30,22 +43,28 @@ implementation
 
 uses View.ProdutoVis, View.ClienteVis, View.PedidoDeVendaVis;
 
-procedure TMenuView.btnClienteClick(Sender: TObject);
+procedure TMenuView.pnlClienteClick(Sender: TObject);
 begin
   Application.CreateForm(TClienteVisView, ClienteVisView);
   ClienteVisView.ShowModal;
 end;
 
-procedure TMenuView.btnPedidoDeVendaClick(Sender: TObject);
+procedure TMenuView.pnlPedidoDeVendaClick(Sender: TObject);
 begin
   Application.CreateForm(TPedidoDeVendaVisView, PedidoDeVendaVisView);
   PedidoDeVendaVisView.ShowModal;
 end;
 
-procedure TMenuView.btnProdutoClick(Sender: TObject);
+procedure TMenuView.pnlProdutoClick(Sender: TObject);
 begin
-  Application.CreateForm(TProdutoViewVis, ProdutoViewVis);
-  ProdutoViewVis.ShowModal;
+  Application.CreateForm(TProdutoVisView, ProdutoVisView);
+  ProdutoVisView.ShowModal;
+end;
+
+procedure TMenuView.pnlProdutoMouseEnter(Sender: TObject);
+begin
+  shp1.Top := TPanel(Sender).Top;
+  pnlMenu.Repaint;
 end;
 
 end.

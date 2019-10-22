@@ -3,7 +3,7 @@ unit Model.PedidoDeVenda;
 interface
 
 uses
-  Model.Base, System.Generics.Collections;
+  Model.Base, System.Generics.Collections, System.Classes;
 
 type
   TPedidoDeVendaItensModel = class(TBaseModel)
@@ -30,6 +30,7 @@ type
       property ValorUnitario: Double read FValorUnitario write SetValorUnitario;
       property ValorTotal: Double read FValorTotal write SetValorTotal;
       property Quantidade: Double read FQuantidade write SetQuantidade;
+      constructor Create;
 
 
 
@@ -46,7 +47,9 @@ type
     procedure SetValorTotal(const Value: Double);
     procedure SetItens(const Value: TObjectList<TPedidoDeVendaItensModel>);
 
+
     public
+    constructor Create;
      property IDCliente: integer read FIDCliente write SetIDCliente;
      property NomeCliente: string read FNomeCliente write SetNomeCliente;
      property ValorTotal: Double read FValorTotal write SetValorTotal;
@@ -57,6 +60,13 @@ type
 implementation
 
 { TPedidoDeVendaModel }
+
+constructor TPedidoDeVendaModel.Create;
+begin
+  Itens := TObjectList<TPedidoDeVendaItensModel>.Create;
+  Table := 'PedidoDeVenda';
+  Generator := 'GEN_PEDIDODEVENDA_ID';
+end;
 
 procedure TPedidoDeVendaModel.SetIDCliente(const Value: integer);
 begin
@@ -80,6 +90,12 @@ begin
 end;
 
 { TPedidoDeVendaItensModel }
+
+constructor TPedidoDeVendaItensModel.Create;
+begin
+  Table := 'PedidoDeVendaItens';
+  Generator := 'GEN_PEDIDODEVENDAITENS_ID';
+end;
 
 procedure TPedidoDeVendaItensModel.SetCustoUnitario(const Value: Double);
 begin

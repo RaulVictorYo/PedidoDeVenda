@@ -31,7 +31,8 @@ end;
 implementation
 
 uses
-  Vcl.Forms, System.SysUtils, View.ProdutoVis, View.ClienteVis, Model.Cliente;
+  Vcl.Forms, System.SysUtils, View.ProdutoVis, View.ClienteVis, Model.Cliente,
+  Data.DB;
 
 { TClienteController }
 
@@ -98,6 +99,7 @@ procedure TClienteController.Search(AText: string);
 begin
   ClienteVisView.FDQueryGrid.SQL.Text:= DAO.Search(AText);
   ClienteVisView.FDQueryGrid.Active := true;
+
 end;
 
 procedure TClienteController.SetModelByView;
@@ -109,15 +111,15 @@ begin
 
     RazaoSocial := edtRazaoSocial.Text;
     NomeFantasia := edtNomeFantasia.Text;
-    CNPJ := edtCNPJ.Text;
+    CNPJ := mskCNPJ.Text;
     Logradouro := edtLogradouro.Text;
     Numero := edtNumero.Text;
     Bairro := edtBairro.Text;
     Cidade := edtCidade.Text;
-    CEP := edtCEP.Text;
+    CEP := mskCEP.Text;
     UF := edtUF.Text;
     Email := edtEmail.Text;
-    Telefone := edtTelefone.Text;
+    Telefone := mskTelefone.Text;
   end;
 end;
 
@@ -128,15 +130,15 @@ begin
     lblID.Caption := IntToStr(ID);
     edtRazaoSocial.Text := RazaoSocial;
     edtNomeFantasia.Text := NomeFantasia;
-    edtCNPJ.Text := CNPJ;
+    mskCNPJ.Text := CNPJ;
     edtLogradouro.Text := Logradouro;
     edtNumero.Text := Numero;
     edtBairro.Text := Bairro;
     edtCidade.Text := Cidade;
-    edtCEP.Text := CEP;
+    mskCEP.Text := CEP;
     edtUF.Text := UF;
     edtEmail.Text := Email;
-    edtTelefone.Text := Telefone;
+    mskTelefone.Text := Telefone;
   end;
 
 end;

@@ -57,7 +57,7 @@ begin
     stUpdate:
      begin
       Application.CreateForm(TProdutoView, ProdutoView);
-      Model := DAO.FindByID(ProdutoViewVis.FDQueryGrid.FieldByName('ID').AsInteger);
+      Model := DAO.FindByID(ProdutoVisView.FDQueryGrid.FieldByName('ID').AsInteger);
       ProdutoView.lbl1.Visible := True;
       ProdutoView.lblID.Visible := True;
       SetViewByModel;
@@ -73,10 +73,10 @@ end;
 
 procedure TProdutoController.Delete;
 begin
-  Model := DAO.FindByID(ProdutoViewVis.FDQueryGrid.FieldByName('ID').AsInteger);
+  Model := DAO.FindByID(ProdutoVisView.FDQueryGrid.FieldByName('ID').AsInteger);
   DAO.Delete(Model);
-  ProdutoViewVis.FDQueryGrid.SQL.Text:= DAO.AtualizaGrid(Model.ID);
-  ProdutoViewVis.FDQueryGrid.Active := true;
+  ProdutoVisView.FDQueryGrid.SQL.Text:= DAO.AtualizaGrid(Model.ID);
+  ProdutoVisView.FDQueryGrid.Active := true;
 end;
 
 destructor TProdutoController.Destroy;
@@ -89,15 +89,15 @@ end;
 procedure TProdutoController.Gravar;
 begin
   SetModelByView;
-  ProdutoViewVis.FDQueryGrid.SQL.Text:= DAO.AtualizaGrid(DAO.Insert(Model));
-  ProdutoViewVis.FDQueryGrid.Active := true;
+  ProdutoVisView.FDQueryGrid.SQL.Text:= DAO.AtualizaGrid(DAO.Insert(Model));
+  ProdutoVisView.FDQueryGrid.Active := true;
 
 end;
 
 procedure TProdutoController.Search(AText: string);
 begin
-  ProdutoViewVis.FDQueryGrid.SQL.Text:= DAO.Search(AText);
-  ProdutoViewVis.FDQueryGrid.Active := true;
+  ProdutoVisView.FDQueryGrid.SQL.Text:= DAO.Search(AText);
+  ProdutoVisView.FDQueryGrid.Active := true;
 end;
 
 procedure TProdutoController.SetModelByView;

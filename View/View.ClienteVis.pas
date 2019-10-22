@@ -8,19 +8,23 @@ uses
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
-  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Model.Cliente;
+  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Model.Cliente,
+  Vcl.Imaging.pngimage, Vcl.Imaging.jpeg;
 
 type
   TClienteVisView = class(TTemplateVisView)
-    procedure btnIncluirClick(Sender: TObject);
-    procedure btnAlterarClick(Sender: TObject);
-    procedure btnExcluirClick(Sender: TObject);
-    procedure btnPesquisarClick(Sender: TObject);
+    edtID: TLabeledEdit;
+    edtRazaoSocial: TLabeledEdit;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure DBGrid1KeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure pnlPesquisarClick(Sender: TObject);
+    procedure pnlIncluirClick(Sender: TObject);
+    procedure pnlAlterarClick(Sender: TObject);
+    procedure pnlDeletarClick(Sender: TObject);
+    procedure pnlLimparClick(Sender: TObject);
   private
     FViewPesquisa: Boolean;
     FCliente: TClienteModel;
@@ -47,43 +51,6 @@ var
   ClienteController: TClienteController;
 
 {$R *.dfm}
-
-procedure TClienteVisView.btnAlterarClick(Sender: TObject);
-begin
-  inherited;
-  ClienteController.CreateView(stUpdate,True);
-end;
-
-procedure TClienteVisView.btnExcluirClick(Sender: TObject);
-begin
-  inherited;
-  if Application.MessageBox('Você tem certeza que quer excluir esse Cliente?','Exclusão',mb_yesno + mb_iconquestion) = id_yes then
-    ClienteController.Delete;
-end;
-
-procedure TClienteVisView.btnIncluirClick(Sender: TObject);
-begin
-  inherited;
-  ClienteController.CreateView(stInsert,True);
-end;
-
-procedure TClienteVisView.btnPesquisarClick(Sender: TObject);
-begin
-  inherited;
-  if Trim(edtID.Text) <> '' then
-  begin
-    ClienteController.Search(edtID.Text);
-  end
-  else if Trim(edtDescricao.Text) <> '' then
-  begin
-    ClienteController.Search(edtDescricao.Text);
-  end
-  else
-  begin
-    ClienteController.Search('');
-  end;
-end;
-
 
 procedure TClienteVisView.DBGrid1KeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
@@ -136,6 +103,49 @@ begin
   begin
     ClienteVisView.WindowState := wsNormal;
     ClienteVisView.BorderStyle := bsDialog;
+  end;
+end;
+
+procedure TClienteVisView.pnlAlterarClick(Sender: TObject);
+begin
+  inherited;
+  ClienteController.CreateView(stUpdate,True);
+end;
+
+procedure TClienteVisView.pnlDeletarClick(Sender: TObject);
+begin
+  inherited;
+    if Application.MessageBox('Você tem certeza que quer excluir esse Cliente?','Exclusão',mb_yesno + mb_iconquestion) = id_yes then
+    ClienteController.Delete;
+end;
+
+procedure TClienteVisView.pnlIncluirClick(Sender: TObject);
+begin
+  inherited;
+  ClienteController.CreateView(stInsert,True);
+end;
+
+procedure TClienteVisView.pnlLimparClick(Sender: TObject);
+begin
+  inherited;
+  edtID.Text := '';
+  edtRazaoSocial.Text := '';
+end;
+
+procedure TClienteVisView.pnlPesquisarClick(Sender: TObject);
+begin
+  inherited;
+  if Trim(edtID.Text) <> '' then
+  begin
+    ClienteController.Search(edtID.Text);
+  end
+  else if Trim(edtRazaoSocial.Text) <> '' then
+  begin
+    ClienteController.Search(edtRazaoSocial.Text);
+  end
+  else
+  begin
+    ClienteController.Search('');
   end;
 end;
 

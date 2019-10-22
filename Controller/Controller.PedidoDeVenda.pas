@@ -5,7 +5,7 @@ interface
 uses
   Util.Enum, Controller.Base,
   Model.Base, DAO.PedidoDeVenda, View.PedidoDeVenda, Model.Cliente,
-  Model.Produto;
+  Model.Produto, Model.PedidoDeVenda;
 
 type
 
@@ -34,6 +34,7 @@ TPedidoDeVendaController = class(TBaseController)
   var
   DAO : TPedidoDeVendaDAO;
   View : TPedidoDeVendaView;
+  Model : TPedidoDeVendaModel;
 
 
 end;
@@ -41,7 +42,7 @@ end;
 implementation
 
 uses
-  Vcl.Forms, System.SysUtils, View.PedidoDeVendaVis, Model.PedidoDeVenda,
+  Vcl.Forms, System.SysUtils, View.PedidoDeVendaVis,
   View.ClienteVis, FireDAC.Comp.Client, DAO.Cliente, Singleton.Connection,
   DAO.Produto, View.ProdutoVis, System.Generics.Collections;
 
@@ -70,8 +71,8 @@ begin
     stUpdate:
      begin
       Application.CreateForm(TPedidoDeVendaView, PedidoDeVendaView);
-      Model := DAO.FindByID(PedidoDeVendaVisView.FDQueryGrid.FieldByName('ID').AsInteger);
-      PedidoDeVendaView.lbl1.Visible := True;
+      TBaseModel(Model) := DAO.FindByID(PedidoDeVendaVisView.FDQueryGrid.FieldByName('ID').AsInteger);
+      PedidoDeVendaView.lbl5.Visible := True;
       PedidoDeVendaView.lblID.Visible := True;
       SetViewByModel;
       if AModal then
@@ -86,7 +87,7 @@ end;
 
 procedure TPedidoDeVendaController.Delete;
 begin
-  Model := DAO.FindByID(PedidoDeVendaVisView.FDQueryGrid.FieldByName('ID').AsInteger);
+  TBaseModel(Model) := DAO.FindByID(PedidoDeVendaVisView.FDQueryGrid.FieldByName('ID').AsInteger);
   DAO.Delete(Model);
   PedidoDeVendaVisView.FDQueryGrid.SQL.Text:= DAO.AtualizaGrid(Model.ID);
   PedidoDeVendaVisView.FDQueryGrid.Active := true;
@@ -103,6 +104,7 @@ procedure TPedidoDeVendaController.Gravar;
 begin
   SetModelByView;
   PedidoDeVendaVisView.FDQueryGrid.SQL.Text:= DAO.AtualizaGrid(DAO.Insert(Model));
+  DAO.GravarItens(TPedidoDeVendaModel(Model));
   PedidoDeVendaVisView.FDQueryGrid.Active := true;
 
 end;
@@ -167,27 +169,29 @@ begin
       stgrdItens.Cells[GroupColum.IndexOf('Produto'), ARow] := FDQuery.FieldByName('DESCRICAO').AsString;
       stgrdItens.Cells[GroupColum.IndexOf('CustoUnitario'), ARow] := FDQuery.FieldByName('Custo').AsString;
       stgrdItens.Cells[GroupColum.IndexOf('ValorUnitario'), ARow] := FDQuery.FieldByName('VALORVENDA').AsString;
-      stgrdItens.Cells[GroupColum.IndexOf('Quantidade'), ARow] := '1.00';
+      stgrdItens.Cells[GroupColum.IndexOf('Quantidade'), ARow] := '1,00';
       stgrdItens.Cells[GroupColum.IndexOf('ValorTotal'), ARow] := FormatFloat('0.00', Produto.ValorVenda);
 
     end;
   end
   else
   begin
-    Application.CreateForm(TProdutoViewVis, ProdutoViewVis);
-    ProdutoViewVis.ViewPesquisa := True;
-    ProdutoViewVis.FDQueryGrid.SQL.Text := FDQuery.SQL.Text;
-    ProdutoViewVis.FDQueryGrid.Active := True;
-    ProdutoViewVis.ShowModal;
-    Produto := ProdutoViewVis.Produto;
+    Application.CreateForm(TProdutoVisView, ProdutoVisView);
+    ProdutoVisView.ViewPesquisa := True;
+    ProdutoVisView.FDQueryGrid.SQL.Text := FDQuery.SQL.Text;
+    ProdutoVisView.FDQueryGrid.Active := True;
+    ProdutoVisView.ShowModal;
+    Produto := ProdutoVisView.Produto;
     with PedidoDeVendaView do
     begin
+
       stgrdItens.Cells[GroupColum.IndexOf('ID'), ARow] := IntToStr(Produto.ID);
       stgrdItens.Cells[GroupColum.IndexOf('Produto'), ARow] := Produto.Descricao;
       stgrdItens.Cells[GroupColum.IndexOf('CustoUnitario'), ARow] := FormatFloat('0.00', Produto.Custo);
       stgrdItens.Cells[GroupColum.IndexOf('ValorUnitario'), ARow] := FormatFloat('0.00', Produto.ValorVenda);
-      stgrdItens.Cells[GroupColum.IndexOf('Quantidade'), ARow] := '1.00';
+      stgrdItens.Cells[GroupColum.IndexOf('Quantidade'), ARow] := '1,00';
       stgrdItens.Cells[GroupColum.IndexOf('ValorTotal'), ARow] := FormatFloat('0.00', Produto.ValorVenda);
+
 
     end;
   end;
@@ -214,24 +218,26 @@ begin
 
       IDCliente := edtCliente.Tag;
       NomeCliente := edtCliente.Text;
+      ValorTotal := StrToFloat(lblValorTotal.Caption);
 
   end;
 
-  with ModelItens, PedidoDeVendaView do
+  with Model, PedidoDeVendaView do
   begin
-    for I := 1 to stgrdItens.RowCount - 1 do
+    for I := 0 to stgrdItens.RowCount - 2 do
     begin
+      TPedidoDeVendaModel(Model).Itens.Add(TPedidoDeVendaItensModel.Create);
       if lblID.Caption <> ''  then
-        IDPedido := StrToInt(lblID.Caption);
+        Itens[I].IDPedido := StrToInt(lblID.Caption);
 
-      IDProduto := StrToInt(stgrdItens.Cells[GroupColum.IndexOf('ID'),I]);
-      NomeProduto := stgrdItens.Cells[GroupColum.IndexOf('Produto'),I];
-      CustoUnitario := StrToFloat(stgrdItens.Cells[GroupColum.IndexOf('CustoUnitario'),I]);
-      ValorUnitario := StrToFloat(stgrdItens.Cells[GroupColum.IndexOf('ValorUnitario'),I]);
-      ValorTotal := StrToFloat(stgrdItens.Cells[GroupColum.IndexOf('ValorTotal'),I]);
-      Quantidade := StrToFloat(stgrdItens.Cells[GroupColum.IndexOf('Quantidade'),I]);
+      Itens[I].IDProduto := StrToInt(stgrdItens.Cells[GroupColum.IndexOf('ID'),I+1]);
+      Itens[I].NomeProduto := stgrdItens.Cells[GroupColum.IndexOf('Produto'),I+1];
+      Itens[I].CustoUnitario := StrToFloat(stgrdItens.Cells[GroupColum.IndexOf('CustoUnitario'),I+1]);
+      Itens[I].ValorUnitario := StrToFloat(stgrdItens.Cells[GroupColum.IndexOf('ValorUnitario'),I+1]);
+      Itens[I].ValorTotal := StrToFloat(stgrdItens.Cells[GroupColum.IndexOf('ValorTotal'),I+1]);
+      Itens[I].Quantidade := StrToFloat(stgrdItens.Cells[GroupColum.IndexOf('Quantidade'),I+1]);
 
-      TPedidoDeVendaModel(Model).Itens.Add(ModelItens);
+
 
     end;
   end;
@@ -248,37 +254,37 @@ end;
 procedure TPedidoDeVendaController.SetViewByModel;
 var
   I: integer;
-  ModelItens: TPedidoDeVendaItensModel;
+  ItemList: TPedidoDeVendaItensModel;
 
 begin
 
-  ModelItens := TPedidoDeVendaItensModel.Create;
+  ItemList := TPedidoDeVendaItensModel.Create;
 
   with TPedidoDeVendaModel(Model), PedidoDeVendaView do
   begin
       lblID.Caption := IntToStr(ID);
-
       edtCliente.Tag := IDCliente;
-      NomeCliente := edtCliente.Text;
-
-    end;
-
-  with ModelItens, PedidoDeVendaView do
-  begin
-    for I := 1 to stgrdItens.RowCount - 1 do
-    begin
-      if lblID.Caption <> ''  then
-        IDPedido := StrToInt(lblID.Caption);
-
-      stgrdItens.Cells[GroupColum.IndexOf('ID'),I] := IntToStr(IDProduto);
-      stgrdItens.Cells[GroupColum.IndexOf('Produto'),I] := NomeProduto;
-      stgrdItens.Cells[GroupColum.IndexOf('CustoUnitario'),I] := FormatFloat('0.00', CustoUnitario);
-      stgrdItens.Cells[GroupColum.IndexOf('ValorUnitario'),I] := FormatFloat('0.00', ValorUnitario);
-      stgrdItens.Cells[GroupColum.IndexOf('ValorTotal'),I] := FormatFloat('0.00', ValorTotal);
-      stgrdItens.Cells[GroupColum.IndexOf('Quantidade'),I] := FormatFloat('0.00', Quantidade);
-
-    end;
+      edtCliente.Text := NomeCliente;
+      lblValorTotal.Caption := FormatFloat('0.00',ValorTotal);
   end;
+
+  with PedidoDeVendaView do
+  begin
+    stgrdItens.RowCount:= TPedidoDeVendaModel(Model).Itens.Count+1;
+    I := 1;
+    for ItemList in TPedidoDeVendaModel(Model).Itens do
+    begin
+      stgrdItens.Cells[GroupColum.IndexOf('ID'),I] := IntToStr(ItemList.IDProduto);
+      stgrdItens.Cells[GroupColum.IndexOf('Produto'),I] := ItemList.NomeProduto;
+      stgrdItens.Cells[GroupColum.IndexOf('ValorUnitario'),I] := FormatFloat('0.00',ItemList.ValorUnitario);
+      stgrdItens.Cells[GroupColum.IndexOf('CustoUnitario'),I] := FormatFloat('0.00',ItemList.CustoUnitario);
+      stgrdItens.Cells[GroupColum.IndexOf('Quantidade'),I] := FormatFloat('0.00',ItemList.Quantidade);
+      stgrdItens.Cells[GroupColum.IndexOf('ValorTotal'),I] := FormatFloat('0.00',ItemList.ValorTotal);
+      Inc(I);
+    end;
+    lblItens.Caption := IntToStr(stgrdItens.RowCount - 1);
+  end;
+
 
 end;
 

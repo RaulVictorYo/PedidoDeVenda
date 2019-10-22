@@ -87,6 +87,7 @@ object PedidoDeVendaView: TPedidoDeVendaView
       ParentFont = False
       TabOrder = 0
       OnDrawCell = stgrdItensDrawCell
+      OnExit = stgrdItensExit
       OnKeyDown = stgrdItensKeyDown
       OnKeyPress = stgrdItensKeyPress
       ColWidths = (

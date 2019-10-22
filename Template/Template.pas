@@ -8,20 +8,37 @@ uses
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
   FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB, Vcl.StdCtrls,
   Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client;
+  FireDAC.Comp.Client, Vcl.Imaging.pngimage, Vcl.Imaging.jpeg;
 
 type
   TTemplateVisView = class(TForm)
     DataSource1: TDataSource;
     FDQueryGrid: TFDQuery;
     DBGrid1: TDBGrid;
-    Panel1: TPanel;
-    btnPesquisar: TButton;
-    btnAlterar: TButton;
-    btnIncluir: TButton;
-    btnExcluir: TButton;
-    edtID: TLabeledEdit;
-    edtDescricao: TLabeledEdit;
+    pnlMenu: TPanel;
+    imgBackGround: TImage;
+    lblModulos: TLabel;
+    shp1: TShape;
+    pnlIncluir: TPanel;
+    imgProduto: TImage;
+    lblProduto: TLabel;
+    pnlAlterar: TPanel;
+    imgCliente: TImage;
+    lblCliente: TLabel;
+    pnlDeletar: TPanel;
+    imgPedidoDeVenda: TImage;
+    lblPedidoDeVenda: TLabel;
+    pnlPesquisa: TPanel;
+    pnl1: TPanel;
+    imgPesquisaBG: TImage;
+    pnlLimpar: TPanel;
+    imgLimpar: TImage;
+    lblLimpar: TLabel;
+    Label1: TLabel;
+    pnlPesquisar: TPanel;
+    imgPesquisa: TImage;
+    lblPesquisar: TLabel;
+    procedure pnlIncluirMouseEnter(Sender: TObject);
   private
     { Private declarations }
   public
@@ -34,5 +51,11 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TTemplateVisView.pnlIncluirMouseEnter(Sender: TObject);
+begin
+  shp1.Top := TPanel(Sender).Top;
+  pnlMenu.Repaint;
+end;
 
 end.

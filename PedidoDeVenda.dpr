@@ -3,7 +3,7 @@ program PedidoDeVenda;
 uses
   Vcl.Forms,
   View.Menu in 'View\View.Menu.pas' {Form1},
-  View.ProdutoVis in 'View\View.ProdutoVis.pas' {ProdutoViewVis},
+  View.ProdutoVis1 in 'View\View.ProdutoVis1.pas' {ProdutoViewVis},
   View.Produto in 'View\View.Produto.pas' {ProdutoView},
   Controller.ProdutoVis in 'Controller\Controller.ProdutoVis.pas',
   Util.Enum in 'Util\Util.Enum.pas',
@@ -25,17 +25,18 @@ uses
   DAO.PedidoDeVenda in 'DAO\DAO.PedidoDeVenda.pas',
   View.PedidoDeVenda in 'View\View.PedidoDeVenda.pas' {PedidoDeVendaView},
   View.ClienteVis in 'View\View.ClienteVis.pas' {ClienteVisView},
-  Model.PedidoDeVenda in 'Model\Model.PedidoDeVenda.pas';
+  Model.PedidoDeVenda in 'Model\Model.PedidoDeVenda.pas',
+  Vcl.Themes,
+  Vcl.Styles,
+  View.ProdutoVis in 'View\View.ProdutoVis.pas' {ProdutoVisView};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
+  TStyleManager.TrySetStyle('Onyx Blue');
   Application.CreateForm(TMenuView, MenuView);
-  Application.CreateForm(TClienteView, ClienteView);
-  Application.CreateForm(TPedidoDeVendaVisView, PedidoDeVendaVisView);
-  Application.CreateForm(TPedidoDeVendaView, PedidoDeVendaView);
-  Application.CreateForm(TClienteVisView, ClienteVisView);
+  Application.CreateForm(TProdutoVisView, ProdutoVisView);
   Application.Run;
 end.

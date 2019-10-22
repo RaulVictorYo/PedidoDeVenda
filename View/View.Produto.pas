@@ -22,6 +22,7 @@ type
     { Private declarations }
   public
     { Public declarations }
+    Function ValidarCampos:Boolean;
 
   end;
 
@@ -43,8 +44,11 @@ var
 
 procedure TProdutoView.btnGravarClick(Sender: TObject);
 begin
-  ProdutoController.Gravar;
-  Close;
+  if ValidarCampos then
+  begin
+    ProdutoController.Gravar;
+    Close;
+  end;
 end;
 
 procedure TProdutoView.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -55,6 +59,25 @@ end;
 procedure TProdutoView.FormCreate(Sender: TObject);
 begin
   ProdutoController := TProdutoController.Create;
+end;
+
+function TProdutoView.ValidarCampos: Boolean;
+begin
+  Result := True;
+  if Trim(EdtDescricao.Text) = '' then
+  begin
+    Result := False;
+    Application.MessageBox('Não é possivel gravar Produto sem Descrição','Erro');
+    Exit
+  end;
+  if Trim(EdtValorVenda.Text) = '' then
+  begin
+    Result := False;
+    Application.MessageBox('Não é possivel gravar Produto sem Valor de Venda','Erro');
+    Exit
+  end;
+
+
 end;
 
 end.
